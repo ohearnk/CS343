@@ -1,0 +1,15 @@
++ Compiling
+    ghc my_prog.hs
+** Compiling a multi-module program without invoking
+** the make utility
+    ghc --make my_prog1.hs ...
+
++ Invoking the interpreter
+    ghci
+** To load functions within a Haskell source file
+** (my_prog.hs) into the interpreter
+    :l my_prog
+** To reload the functions (when, say, you change the code)
+    :l my_prog 
+    OR
+    :r
