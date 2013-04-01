@@ -37,22 +37,26 @@ class InfixPostfix
 
     # returns true if the input is an operator and false otherwise
     def operator?(str)
-        
+        return true if str =~ /\A[-+*\%^]{1}\Z/
+        false
     end
 
     # returns true if the input is an operand and false otherwise
     def operand?(str)
-        
+        return true if str =~ /\A[0-9]+\Z/
+        false
     end
 
     # returns true if the input is a left parenthesis and false otherwise
     def leftParen?(str)
-        
+        return true if str == "("
+        false
     end
 
     # returns true if the input is a right parenthesis and false otherwise
     def rightParen?(str)
-        
+        return true if str == ")"
+        false
     end
 
     # returns the stack precedence of the input operator
@@ -84,3 +88,10 @@ a = InfixPostfix.new()
 puts a.stackPrecedence('+')
 puts a.inputPrecedence('*')
 puts a.applyOperator(2,5,'^')
+puts a.operator?('+')
+puts a.operator?('|')
+puts a.operator?('12+2')
+puts "--------"
+puts a.operand?('123')
+puts a.operand?('02102')
+puts a.operand?('a1')
