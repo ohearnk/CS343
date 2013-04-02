@@ -78,7 +78,7 @@ class InfixPostfix
 
     # returns true if the input is an operator and false otherwise
     def operator?(str)
-        return true if str =~ /\A[-+*\%^]{1}\Z/
+        return true if str =~ /\A[-+*\/%^]{1}\Z/
         false
     end
 
