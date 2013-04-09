@@ -24,6 +24,7 @@ infixToPostfix expr = do
 	
 	
 -- evaluates a postfix expression and prints the result	
+{-
 evaluatePostfixExp :: String -> String
 evaluatePostfixExp expr = do
 	let stack = []
@@ -34,7 +35,7 @@ evaluatePostfixExp expr = do
 -- recursively loops through a postfix expression and evaluates it
 -- In the process of writing this code.
 -- It currently has not been tested nor do I think is it close to working
--- I just decided to quit for the night. 
+-- I just decided to quit for the night.
 forEachEval :: [String] -> [String] -> [String]
 forEachEval expr stack = do
 	if (length expr == 0)
@@ -67,7 +68,7 @@ eval_map_function token stack = do
 			let stack = push (applyOperator (pop stack)(pop stack)(token)) stack
 			True
 		else False
-
+-}
 	
 -- pushes a character onto a stack	
 push :: String -> [String] -> [String]
@@ -137,43 +138,25 @@ inputPrec operator = do
 	
 	
 -- apply an operator on two values. Returns value as string
-applyOperator :: String -> String -> String -> String
-applyOperator n1 n2 operator = do	
-	let num1 = read n1 :: Int
-	let num2 = read n2 :: Int
+--applyOperator :: String -> String -> String -> String
+applyOperator :: (Integral a) => a -> a -> String -> a
+applyOperator num1 num2 operator = case operator of "+" -> num1 + num2
+                                                    "-" -> num1 - num2
+                                                    "*" -> num1 * num2
+                                                    "/" -> num1 `div` num2
+                                                    "%" -> num1 `mod` num2
+                                                    "^" -> num1 ^ num2
+                                                    otherwise -> error "Not a valid operand"
 
-	if operator == "+"
-	then do 
-		let val = num1 + num2
-		show val :: String
-	else if operator == "-"
-	then do 
-		let val = num1 - num2
-		show val :: String
-	else if operator == "*"
-		then do 
-		let val = num1 * num2
-		show val :: String
-	else if operator == "/"
-		then do 
-			if num2 > 0
-			then do 
-				let val = fromIntegral (num1) / fromIntegral(num2)
-				show val :: String
-			else "0"
-	else if operator == "%"
-		then do 
-		let val = num1 `mod` num2
-		show val :: String
-	else if operator == "^"
-		then do 
-		let val = num1 ^ num2
-		show val :: String
-	else "0"
-	
-	
+
 -- main method
 -- currently used to test the above functions
 main = do
-	print (splitOn [' '] "5 + 6 + 77 + 4 - 8 * 55")
-	print (evaluatePostfixExp "5")
+--	print (splitOn [' '] "5 + 6 + 77 + 4 - 8 * 55")
+    print (applyOperator 2 5 "+")
+    print (applyOperator 3 4 "-")
+    print (applyOperator 0 10 "*")
+    print (applyOperator 5 2 "/")
+    print (applyOperator 4 3 "%")
+    print (applyOperator 2 3 "^")
+--	print (evaluatePostfixExp "5")
