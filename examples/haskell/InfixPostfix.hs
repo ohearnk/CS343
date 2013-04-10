@@ -95,50 +95,40 @@ isOperand val = do
 	if v `elem` [-99999..99999]
 	then True
 	else False
-	
+
+
 -- returns true if param is a left parenthesis
 isLeftParen :: String -> Bool
-isLeftParen val = do
-	if val == "("
-	then True
-	else False
-	
+isLeftParen "(" = True
+
+
 -- returns true if param is a right parenthesis
 isRightParen :: String -> Bool
-isRightParen val = do
-	if val == ")"
-	then True
-	else False
+isRightParen ")" = True
+isRightParen operator = False
+
+
+-- get the input precedence of an operator	
+inputPrec :: (Integral a) => String -> a
+inputPrec operator
+    | operator `elem` ["+", "-"] = 1
+    | operator `elem` ["*", "/", "%"] = 2
+    | operator == "^" = 4
+    | operator == "(" = 5
+    | otherwise = error "Not a valid operator"
 
 	
 -- get the stack precedence of an operator	
-stackPrec operator = do
-	if operator `elem` ["+", "-"]
-		then 1
-	else if operator `elem` ["*", "/", "%"]
-		then 2
-	else if operator == "^"
-		then 3
-	else if operator == "("
-		then -1
-	else null
-	
-	
--- get the input precedence of an operator	
-inputPrec operator = do
-	if operator `elem` ["+", "-"]
-		then 1
-	else if operator `elem` ["*", "/", "%"]
-		then 2
-	else if operator == "^"
-		then 4
-	else if operator == "("
-		then 5
-	else null
+stackPrec :: (Integral a) => String -> a
+stackPrec operator
+    | operator `elem` ["+", "-"] = 1
+    | operator `elem` ["*", "/", "%"] = 2
+    | operator == "^" = 3
+    | operator == "(" = -1
+    | otherwise = error "Not a valid operator"
 	
 	
 -- apply an operator on two values. Returns value as string
---applyOperator :: String -> String -> String -> String
 applyOperator :: (Integral a) => a -> a -> String -> a
 applyOperator num1 num2 operator = case operator of "+" -> num1 + num2
                                                     "-" -> num1 - num2
@@ -159,4 +149,13 @@ main = do
     print (applyOperator 5 2 "/")
     print (applyOperator 4 3 "%")
     print (applyOperator 2 3 "^")
+    putStrLn "-------"
+    print (inputPrec "-")
+    print (inputPrec "%")
+    putStrLn "-------"
+    print (stackPrec "+")
+    print (stackPrec "^")
+    putStrLn "-------"
+    print (isLeftParen "(")
+    print (isRightParen "(")
 --	print (evaluatePostfixExp "5")
