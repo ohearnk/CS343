@@ -22,9 +22,9 @@ infixToPostfix expr = do
 	
 	postfixExp --return value
 	
-	
--- evaluates a postfix expression and prints the result	
+
 {-
+-- evaluates a postfix expression and prints the result	
 evaluatePostfixExp :: String -> String
 evaluatePostfixExp expr = do
 	let stack = []
@@ -69,6 +69,7 @@ eval_map_function token stack = do
 			True
 		else False
 -}
+
 	
 -- pushes a character onto a stack	
 push :: String -> [String] -> [String]
@@ -82,19 +83,16 @@ pop str = last str
 	
 -- returns true if param is an operator
 isOperator :: String -> Bool
-isOperator val = do
-	if val `elem` ["+","-","*","/","%","^"]
-	then True
-	else False
+isOperator operator
+    | operator `elem` ["+","-","*","/","%","^"] = True
+    | otherwise = False
 
 
 -- returns true if param is an operand
 isOperand :: String -> Bool
-isOperand val = do
-	let v = read val :: Int
-	if v `elem` [-99999..99999]
-	then True
-	else False
+isOperand operand = case reads operand :: [(Integer, String)] of
+    [(_, "")] -> True
+    _         -> False
 
 
 -- returns true if param is a left parenthesis
@@ -130,13 +128,14 @@ stackPrec operator
 	
 -- apply an operator on two values. Returns value as string
 applyOperator :: (Integral a) => a -> a -> String -> a
-applyOperator num1 num2 operator = case operator of "+" -> num1 + num2
-                                                    "-" -> num1 - num2
-                                                    "*" -> num1 * num2
-                                                    "/" -> num1 `div` num2
-                                                    "%" -> num1 `mod` num2
-                                                    "^" -> num1 ^ num2
-                                                    otherwise -> error "Not a valid operand"
+applyOperator num1 num2 operator = case operator of
+    "+" -> num1 + num2
+    "-" -> num1 - num2
+    "*" -> num1 * num2
+    "/" -> num1 `div` num2
+    "%" -> num1 `mod` num2
+    "^" -> num1 ^ num2
+    otherwise -> error "Not a valid operand"
 
 
 -- main method
@@ -158,4 +157,10 @@ main = do
     putStrLn "-------"
     print (isLeftParen "(")
     print (isRightParen "(")
+    putStrLn "-------"
+    print (isOperand "-2")
+    print (isOperand "+")
+    putStrLn "-------"
+    print (isOperator "/")
+    print (isOperator "11")
 --	print (evaluatePostfixExp "5")
