@@ -26,13 +26,17 @@ import Data.List.Split
 -- converts an infix expression to a postfix expression
 -- Note: Add a space after appending a value to the postfixExp
 infixToPostfix :: String -> String
-infixToPostfix expr = do
-
-	let stack = []
-	let exp = splitOn [' '] expr		-- delimits expr by spaces & stores as list of strings
-	let postfixExp = ""
-	
-	postfixExp --return value
+infixToPostfix expr = (parseExpr (splitOn [' '] expr) [])
+    where   parseExpr [] _      = ""
+            parseExpr (x:xs) stack
+                | isOperand x = x ++ (parseExpr xs stack)
+                | isLeftParen x = (parseExpr xs (x:stack))
+                -- TODO: figure out how to iterate through the stack,
+                -- and using the operator precedence comparison to select
+                -- a portion of the stack (map function?)
+                -- | isOperator x = (map stack) ++ (parseExpr xs (map stack))
+                -- | (isRightParen x) && (")" `elem` stack) = (map stack) ++ (parseExpr xs (map stack))
+                | otherwise = error "Not a valid identifier"
 	
 
 {-
