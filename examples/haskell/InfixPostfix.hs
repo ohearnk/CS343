@@ -24,20 +24,42 @@ where
 import Data.List.Split
 
 -- converts an infix expression to a postfix expression
--- Note: Add a space after appending a value to the postfixExp
 infixToPostfix :: String -> String
 infixToPostfix expr = (parseExpr (splitOn [' '] expr) [])
-    where   parseExpr [] _      = ""
+    where   parseExpr [] stack = foldr1 (++) stack
             parseExpr (x:xs) stack
-                | isOperand x = x ++ (parseExpr xs stack)
+                | isOperand x = x ++ " " ++ (parseExpr xs stack)
                 | isLeftParen x = (parseExpr xs (x:stack))
-                -- TODO: figure out how to iterate through the stack,
-                -- and using the operator precedence comparison to select
-                -- a portion of the stack (map function?)
-                -- | isOperator x = (map stack) ++ (parseExpr xs (map stack))
-                -- | (isRightParen x) && (")" `elem` stack) = (map stack) ++ (parseExpr xs (map stack))
-                | otherwise = error "Not a valid identifier"
-	
+                | isOperator x = (concatLowerPrec stack x) ++ (parseExpr xs (x:(keepHigherPrec stack x)))
+                | (isRightParen x) && ("(" `elem` stack) = (concatBeforeLeftParen stack) ++ (parseExpr xs (removeToLeftParen stack))
+                | otherwise = error ("Not a valid identifier: " ++ x ++ (foldr1 (++) xs) ++ " " ++ (foldr1 (++) stack) -- remove after debug)
+
+
+concatLowerPrec :: [String] -> String -> String
+concatLowerPrec [] _ = ""
+concatLowerPrec (s:ss) i
+    | (stackPrec s) >= (inputPrec i) = s ++ " " ++ (concatLowerPrec ss i)
+    | otherwise = ""
+
+
+keepHigherPrec :: [String] -> String -> [String]
+keepHigherPrec [] _ = []
+keepHigherPrec (s:ss) i
+    | (stackPrec s) >= (inputPrec i) = (keepHigherPrec ss i)
+    | otherwise = ss
+
+
+concatBeforeLeftParen :: [String] -> String
+concatBeforeLeftParen [] = ""
+concatBeforeLeftParen ("(":ss) = ""
+concatBeforeLeftParen (s:ss) = s ++ " " ++ (concatBeforeLeftParen ss)
+
+
+removeToLeftParen :: [String] -> [String]
+removeToLeftParen [] = []
+removeToLeftParen ("(":ss) = ss
+removeToLeftParen (s:ss) = removeToLeftParen ss
+
 
 {-
 -- evaluates a postfix expression and prints the result	
@@ -69,23 +91,8 @@ forEachEval expr stack = do
 				let stack = push (applyOperator (pop stack)(pop stack)(token)) stack
 				forEachEval exp stack
 			else []
-		
-	
--- performed for each value in postfix exp	
-eval_map_function :: String -> [String] -> Bool
-eval_map_function token stack = do 
-	if (isOperand token)
-	then do
-		let stack = push token stack
-		True
-	else do
-		if (isOperator token)
-		then do
-			let stack = push (applyOperator (pop stack)(pop stack)(token)) stack
-			True
-		else False
 -}
-
+	
 	
 -- pushes a character onto a stack	
 push :: String -> [String] -> [String]
@@ -114,6 +121,7 @@ isOperand operand = case reads operand :: [(Integer, String)] of
 -- returns true if param is a left parenthesis
 isLeftParen :: String -> Bool
 isLeftParen "(" = True
+isLeftParen operator = False
 
 
 -- returns true if param is a right parenthesis
@@ -129,7 +137,7 @@ inputPrec operator
     | operator `elem` ["*", "/", "%"] = 2
     | operator == "^" = 4
     | operator == "(" = 5
-    | otherwise = error "Not a valid operator"
+    | otherwise = error ("Not a valid operator: " ++ operator)
 
 	
 -- get the stack precedence of an operator	
@@ -139,16 +147,16 @@ stackPrec operator
     | operator `elem` ["*", "/", "%"] = 2
     | operator == "^" = 3
     | operator == "(" = -1
-    | otherwise = error "Not a valid operator"
+    | otherwise = error ("Not a valid operator: " ++ operator)
 	
 	
 -- apply an operator on two values. Returns value as string
-applyOperator :: (Integral a) => a -> a -> String -> a
+applyOperator :: String -> String -> String -> String
 applyOperator num1 num2 operator = case operator of
-    "+" -> num1 + num2
-    "-" -> num1 - num2
-    "*" -> num1 * num2
-    "/" -> num1 `div` num2
-    "%" -> num1 `mod` num2
-    "^" -> num1 ^ num2
-    otherwise -> error "Not a valid operand"
+    "+" -> show ((read num1 :: Int) + (read num2 :: Int))
+    "-" -> show ((read num1 :: Int) - (read num2 :: Int))
+    "*" -> show ((read num1 :: Int) * (read num2 :: Int))
+    "/" -> show ((read num1 :: Int) `div` (read num2 :: Int))
+    "%" -> show ((read num1 :: Int) `mod` (read num2 :: Int))
+    "^" -> show ((read num1 :: Int) ^ (read num2 :: Int))
+    otherwise -> error ("Not a valid operator: " ++ operator)
