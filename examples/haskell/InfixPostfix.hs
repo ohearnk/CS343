@@ -10,14 +10,7 @@
 
 module InfixPostfix
 ( infixToPostfix
---, evaluatePostfixExp
-, applyOperator
-, inputPrec
-, stackPrec
-, isLeftParen
-, isRightParen
-, isOperand
-, isOperator
+, evaluatePostfix
 )
 where
 
@@ -32,76 +25,42 @@ infixToPostfix expr = (parseExpr (splitOn [' '] expr) [])
                 | isLeftParen x = (parseExpr xs (x:stack))
                 | isOperator x = (concatLowerPrec stack x) ++ (parseExpr xs (x:(keepHigherPrec stack x)))
                 | (isRightParen x) && ("(" `elem` stack) = (concatBeforeLeftParen stack) ++ (parseExpr xs (removeToLeftParen stack))
-                | otherwise = error ("Not a valid identifier: " ++ x ++ (foldr1 (++) xs) ++ " " ++ (foldr1 (++) stack) -- remove after debug)
+                | otherwise = error "Not a valid identifier: " ++ x
 
 
 concatLowerPrec :: [String] -> String -> String
 concatLowerPrec [] _ = ""
-concatLowerPrec (s:ss) i
-    | (stackPrec s) >= (inputPrec i) = s ++ " " ++ (concatLowerPrec ss i)
+concatLowerPrec (x:xs) y
+    | (stackPrec x) >= (inputPrec y) = x ++ " " ++ (concatLowerPrec xs y)
     | otherwise = ""
 
 
 keepHigherPrec :: [String] -> String -> [String]
 keepHigherPrec [] _ = []
-keepHigherPrec (s:ss) i
-    | (stackPrec s) >= (inputPrec i) = (keepHigherPrec ss i)
-    | otherwise = ss
+keepHigherPrec all@(x:xs) y
+    | (stackPrec x) >= (inputPrec x) = (keepHigherPrec xs y)
+    | otherwise = all
 
 
 concatBeforeLeftParen :: [String] -> String
-concatBeforeLeftParen [] = ""
-concatBeforeLeftParen ("(":ss) = ""
-concatBeforeLeftParen (s:ss) = s ++ " " ++ (concatBeforeLeftParen ss)
+concatBeforeLeftParen ("(":xs) = ""
+concatBeforeLeftParen (x:xs) = x ++ " " ++ (concatBeforeLeftParen xs)
 
 
 removeToLeftParen :: [String] -> [String]
-removeToLeftParen [] = []
-removeToLeftParen ("(":ss) = ss
-removeToLeftParen (s:ss) = removeToLeftParen ss
+removeToLeftParen ("(":xs) = xs
+removeToLeftParen (x:xs) = removeToLeftParen xs
 
 
-{-
--- evaluates a postfix expression and prints the result	
-evaluatePostfixExp :: String -> String
-evaluatePostfixExp expr = do
-	let stack = []
-	let exp = splitOn [' '] expr
-	head (forEachEval exp stack)
-	
-
--- recursively loops through a postfix expression and evaluates it
--- In the process of writing this code.
--- It currently has not been tested nor do I think is it close to working
--- I just decided to quit for the night.
-forEachEval :: [String] -> [String] -> [String]
-forEachEval expr stack = do
-	if (length expr == 0)
-	then stack 					-- base return value
-	else do
-		let token = head expr	-- first element in the expression
-		let exp = tail exp		-- drop the first element from the expression
-		if (isOperand token)
-		then do
-			let stack = push token stack
-			forEachEval exp stack
-		else do
-			if (isOperator token)
-			then do
-				let stack = push (applyOperator (pop stack)(pop stack)(token)) stack
-				forEachEval exp stack
-			else []
--}
-	
-	
--- pushes a character onto a stack	
-push :: String -> [String] -> [String]
-push val str = str ++ [val]
-
-	
--- returns the character at the end of a [String]
-pop :: [String] -> String
-pop str = last str
+-- evaluates a postfix expression
+evaluatePostfix :: String -> String
+evaluatePostfix expr = (parsePostfixExp (splitOn [' '] expr) [])
+    where parsePostfixExp [] stack = head stack
+          parsePostfixExp (x:xs) (s1:s2:stack)
+              | isOperand x = parsePostfixExp xs (x:s1:s2:stack)
+              | isOperator x = parsePostfixExp xs ((applyOperator s2 s1 x):stack)
+              | otherwise = error ("Not a valid identifier")
+          parsePostfixExp (x:xs) stack = parsePostfixExp xs (x:stack)
 
 	
 -- returns true if param is an operator
