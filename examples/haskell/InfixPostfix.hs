@@ -18,38 +18,32 @@ import Data.List.Split
 
 -- converts an infix expression to a postfix expression
 infixToPostfix :: String -> String
-infixToPostfix expr = (parseExpr (splitOn [' '] expr) [])
-    where   parseExpr [] stack = foldr1 (++) stack
-            parseExpr (x:xs) stack
-                | isOperand x = x ++ " " ++ (parseExpr xs stack)
-                | isLeftParen x = (parseExpr xs (x:stack))
-                | isOperator x = (concatLowerPrec stack x) ++ (parseExpr xs (x:(keepHigherPrec stack x)))
-                | (isRightParen x) && ("(" `elem` stack) = (concatBeforeLeftParen stack) ++ (parseExpr xs (removeToLeftParen stack))
-                | otherwise = error "Not a valid identifier: " ++ x
-
-
-concatLowerPrec :: [String] -> String -> String
-concatLowerPrec [] _ = ""
-concatLowerPrec (x:xs) y
-    | (stackPrec x) >= (inputPrec y) = x ++ " " ++ (concatLowerPrec xs y)
-    | otherwise = ""
-
-
-keepHigherPrec :: [String] -> String -> [String]
-keepHigherPrec [] _ = []
-keepHigherPrec all@(x:xs) y
-    | (stackPrec x) >= (inputPrec x) = (keepHigherPrec xs y)
-    | otherwise = all
-
-
-concatBeforeLeftParen :: [String] -> String
-concatBeforeLeftParen ("(":xs) = ""
-concatBeforeLeftParen (x:xs) = x ++ " " ++ (concatBeforeLeftParen xs)
-
-
-removeToLeftParen :: [String] -> [String]
-removeToLeftParen ("(":xs) = xs
-removeToLeftParen (x:xs) = removeToLeftParen xs
+infixToPostfix expr = 
+--        concatLowerPrec xs y = foldr1 (++) $ takeWhile (inputPrec $ <= stackPrec y) xs
+    let concatLowerPrec :: [String] -> String -> String
+        concatLowerPrec [] _ = ""
+        concatLowerPrec (x:xs) y
+            | (stackPrec x) >= (inputPrec y) = x ++ " " ++ (concatLowerPrec xs y)
+            | otherwise = ""
+        keepHigherPrec :: [String] -> String -> [String]
+        keepHigherPrec [] _ = []
+        keepHigherPrec all@(x:xs) y
+            | (stackPrec x) >= (inputPrec x) = (keepHigherPrec xs y)
+            | otherwise = all
+        concatBeforeLeftParen :: [String] -> String
+        concatBeforeLeftParen ("(":xs) = ""
+        concatBeforeLeftParen (x:xs) = x ++ " " ++ (concatBeforeLeftParen xs)
+        removeToLeftParen :: [String] -> [String]
+        removeToLeftParen ("(":xs) = xs
+        removeToLeftParen (x:xs) = removeToLeftParen xs
+        parseExpr [] stack = foldr1 (++) stack
+        parseExpr (x:xs) stack
+            | isOperand x = x ++ " " ++ (parseExpr xs stack)
+            | isLeftParen x = (parseExpr xs (x:stack))
+            | isOperator x = (concatLowerPrec stack x) ++ (parseExpr xs (x:(keepHigherPrec stack x)))
+            | (isRightParen x) && ("(" `elem` stack) = (concatBeforeLeftParen stack) ++ (parseExpr xs (removeToLeftParen stack))
+            | otherwise = error "Not a valid identifier: " ++ x
+    in parseExpr (splitOn [' '] expr) []
 
 
 -- evaluates a postfix expression
