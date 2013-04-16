@@ -1,6 +1,6 @@
-(ns project4-tic-tac-toe.core-test
+(ns tictactoe.core-test
   (:use clojure.test
-        project4-tic-tac-toe.core))
+        tictactoe.core))
 
 (deftest a-test
   (testing "FIXME, I fail."
