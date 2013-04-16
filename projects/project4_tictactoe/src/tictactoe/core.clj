@@ -55,7 +55,11 @@
 	(display board)
 	(println (str "Player " (get-current-player moves) ", enter your move: "))
 	(let [loc (read)]
-		(if (or (< loc 1)(> loc 9)(= (nth(nth board (quot(- loc 1)3)) (mod(- loc 1)3)) (or "X" "O")))
+		(if (or 
+				(< loc 1)
+				(> loc 9)
+				(= (nth(nth board (quot(- loc 1)3)) (mod(- loc 1)3)) "O")
+				(= (nth(nth board (quot(- loc 1)3)) (mod(- loc 1)3)) "X"))
 			(do (println "Invalid move. Please try again.\n") (get-move board moves))
 			(update-board board loc moves)
 		)
@@ -70,7 +74,7 @@
 		(str "\nPlayer " (get-current-player moves) " wins!\n")
 	(if (> moves 0)
 		(tictactoe (get-move board moves) (- moves 1))
-		"Draw!")
+		(do (display board) "Draw!"))
 	)
 )
 
@@ -84,15 +88,10 @@
 	; work around dangerous default behaviour in Clojure
 	(alter-var-root #'*read-eval* (constantly false))
   
-  
 	; Define a game board.
 	(def board [[1 2 3][4 5 6][7 8 9]])
-	;;(def board [[" " " " " "][" " " " " "][" " " " " "]])
-	
 	; Start the tic tac toe game and print the result. 
 	(println (tictactoe board 9))
-	
-	;(display (update-board board 5 7))
 )
 
 
