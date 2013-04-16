@@ -1,48 +1,13 @@
 (ns tictactoe.core
   (:gen-class))
-
-; TODO
-(defn winner? [board]
-	1
-)
-  
-
-; returns "x" or "o" to represent the current player depending on the number of moves used. 
-(defn get-current-player [moves]
-	(if (= (mod moves 2) 0)
-		"O"
-		"X" 
-	)
-)
-
-	
-; TODO
-; Update the board for the given location for the current player
-(defn update-board [board loc moves] 
-
-
-	1 ;temporary return value to allow the program to run
-)
-
-
-; prompts the current player for a move and 
-(defn get-move [board moves]
-	(println (str "Player " (get-current-player) ", enter your move: "))
-	(let [loc (read)]
-		(if (or (< loc 1)(> loc 9)(= (nth(nth board (/(- loc 1)3)) (mod(- loc 1)3))  " "))
-			(get-move board moves)
-			((update-board board loc moves) (- moves 1))
-		)
-	)
-)
-
-
+ 
+ 
 ; Format a row for display
 (defn display-row [row] 
 	(str " " (nth row 0) " | " (nth row 1) " | " (nth row 2))
 )
 
-	
+
 ; Display the game board 
 (defn display [board]
 	(println) ; new line
@@ -55,12 +20,56 @@
 )
 
 
+; TODO
+(defn winner? [board]
+	0
+)
+  
+
+; returns "x" or "o" to represent the current player depending on the number of moves used. 
+(defn get-current-player [moves]
+	(if (= (mod moves 2) 0)
+		"O"
+		"X"
+	)
+)
+
+	
+; TODO
+; Update the board for the given location for the current player
+(defn update-board [board loc moves] 
+	(assoc 
+		board 
+		(quot(- loc 1)3) 
+		(assoc 
+			(nth board (quot(- loc 1)3)) 
+			(mod(- loc 1)3) 
+			(get-current-player moves)
+		)
+	)
+)
+
+
+; prompts the current player for a move and 
+(defn get-move [board moves]
+	(display board)
+	(println (str "Player " (get-current-player moves) ", enter your move: "))
+	(let [loc (read)]
+		(if (or (< loc 1)(> loc 9)(= (nth(nth board (quot(- loc 1)3)) (mod(- loc 1)3)) (or "X" "O")))
+			(do (println "Invalid move. Please try again.\n") (get-move board moves))
+			(update-board board loc moves)
+		)
+	)
+)
+
+
+
 ; Initial function that starts a game of tic tac toe and prints the final result
 (defn tictactoe [board moves]
 	(if (= (winner? board) 1)
 		(str "\nPlayer " (get-current-player moves) " wins!\n")
 	(if (> moves 0)
-		(tictactoe (get-move board (- moves 1) (- moves 1)))
+		(tictactoe (get-move board moves) (- moves 1))
 		"Draw!")
 	)
 )
@@ -78,9 +87,12 @@
   
 	; Define a game board.
 	(def board [[1 2 3][4 5 6][7 8 9]])
+	;;(def board [[" " " " " "][" " " " " "][" " " " " "]])
 	
 	; Start the tic tac toe game and print the result. 
 	(println (tictactoe board 9))
+	
+	;(display (update-board board 5 7))
 )
 
 
