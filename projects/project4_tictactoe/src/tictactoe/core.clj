@@ -37,7 +37,10 @@
 
 ; Check both diagonals for 3 matches. 
 (defn diag-match? [board] 
-	(if (or (= (nth (nth board 0) 0) (nth (nth board 1) 1) (nth (nth board 2) 2))
+	(if (or 
+	
+	
+			(= (nth (nth board 0) 0) (nth (nth board 1) 1) (nth (nth board 2) 2))
 			(= (nth (nth board 0) 2) (nth (nth board 1) 1) (nth (nth board 2) 0)))
 		true 
 		false
@@ -72,11 +75,19 @@
 				(get-current-player moves)))
 )
 
+;
+(defn valid-input? [x]
+	(try
+		(do (Integer/parseInt (str x)) true)
+	(catch java.lang.Exception e false)
+	)
+)
+
 ; Checks user input for validity. 
 (defn valid-move? [board loc]
 	(try 
 	(if (and 
-			(instance? Number loc) 
+			(valid-input? loc) 
 			(>= loc 1)
 			(<= loc 9)
 			(not= (nth(nth board (quot(- loc 1)3)) (mod(- loc 1)3)) "O")
@@ -91,7 +102,7 @@
 (defn get-move [board moves]
 	(display board)
 	(println (str "Player " (get-current-player moves) ", enter your move: "))
-	(let [loc (read)]
+	(let [loc (read-line)]
 		(if (valid-move? board loc)
 			(update-board board loc moves)
 			(do (println (str loc " is not a valid move. Please try again.\n")) (get-move board moves))
