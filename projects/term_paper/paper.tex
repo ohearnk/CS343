@@ -28,11 +28,26 @@
 \tableofcontents \newpage
 
 \section{Introduction}
-\bi
-    \item Origin and history
-    \item Explanation of the functional programming paradigm
-    \item Application domains of the language
-\ei
+This paper provides an overview of the Haskell programming language.
+
+\subsection{Origin and History}
+
+In the early 1930s, Alonzo Church formulated a mathematical abstraction known as lambda calculus, which involves the description and evaluation of functions in mathematics (Haskell). Lambda calculus became the foundation for functional programming (``Haskell''). However, as numerous functional languages began to develop, all of which were similar in expressiveness and semantics, there became the need for a standard functional language to aid the spread of functional programming (Hudak 1). A meeting was held in 1987 at a Functional Programming Languages and Computer Architecture conference to address this need (Hudak 1). The meeting resulted in the formation of a committee to design a standard functional language. In 1990, the committee produced their result: a consolidation of existing functional programming languages into an open standard, common language to be used for functional programming research: Haskell (Hudak 3).
+
+Haskell is named after Haskell Curry, a logician whose work greatly contributed to functional programming. It has a lambda as its logo to symbolize lambda calculus as its foundation. Today, Haskell is widely used in many different aspects of computing. From AT\&T's automated processing of abuse complaints in its network security division to the National Radio Astronomy Observatory’s implementation of core science algorithms, Haskell can be found in many aspects of modern industry (``Haskell''). 
+
+\subsection{Functional Programming Paradigm}
+
+Haskell is a pure functional language, which means that its functions cannot change values, but rather only accept and return values. Each functions acts independently of other functions, and does not change the state of anything outside of its scope. This is referred to as having no ``side-effects,'' and it allows Haskell to be exceptionally optimized and permit parallel processing. In addition, functions do not have to be declared in a particular order since they all exist independently of one another. 
+
+In addition, it is also a lazy language; expressions in Haskell are not evaluated at binding time, but rather are evaluated only when the result is needed. 
+
+Type checking in Haskell is static and is performed at compile time. Haskell uses type-declarations for functions, in which the types of parameters and return values are explicitly defined. Any use of a function in which parameters do not meet the defined function type is flagged by the compiler, and compilation will be aborted. For example, the following function defines 
+
+\subsection{Application Domains}
+
+
+
 [TODO]~\cite{learnyouahaskell}
 \begin{minted}{haskell}
 module Main where
@@ -51,7 +66,7 @@ test = do
 \subsection{Data Abstractions}
 \subsubsection{Data Types}
 \bi
-    \item Basis data types: Int, Float, Char, Boolean, lists
+    \item Basis data types: Int, Float, Char, Boolean, lists, tuples
 \begin{minted}{haskell}
 let i = 2
 let x = 3.14
@@ -59,6 +74,7 @@ let c = 'c'
 let str = ['H','a','s','k','e','l','l','!']
 ; shorthand for the above
 let str2 = "Haskell!"
+let t = (3.14, 'pi')
 \end{minted}
 
     \item Type variables: variables that can be any type (used in polymorphic functions)
@@ -86,7 +102,24 @@ let myNum2 = (read myStr) + 2
 \subsubsection{Expressions}
 \bi
     \item Function definitions
-    \item Binding: let, where
+\begin{minted}{haskell}
+greet :: String -> String
+greet name = "Hello, " ++ name ++ "!"
+\end{minted}
+    \item Bindings: let/in (valid expression), where (locally bound to a syntactic construct)
+\begin{minted}{haskell}
+rectPrismVol :: (Num a) -> a -> a -> a -> a
+rectPrismVol length width height = 4 * (faceArea length width)
+    + 2 * (baseArea length height)
+where   faceArea l w = l * w
+        baseArea = l * h
+\end{minted}
+\begin{minted}{haskell}
+myExp =
+    let e = 2.7182
+    in  e ** x
+\end{minted}
+NOTE: statements in let/in must be aligned in same column
 \ei
 
 \subsubsection{Operators and Precedence}
@@ -124,6 +157,12 @@ favoriteLang lang = lang ++
     " is a fine choice, but you should give Haskell a spin."
 \end{minted}
     \item if/then/else
+\begin{minted}{haskell}
+guessGame :: Int -> String
+guessGame x = if x == 42
+    then "You have a deep understanding of life."
+    else "You need to think more about life."
+\end{minted}
     \item Guards
 \begin{minted}{haskell}
 let balance = 200
@@ -134,11 +173,24 @@ assessWorth =
     | otherwise = "Need a loan, friend?"
 \end{minted}
     \item Case expression
+\begin{minted}{haskell}
+favoriteMathSymbol :: String -> String
+favoriteMathSymbol x = case x of
+    "Pi" -> "Geometry is your mind's eye."
+    "e" -> "May the calculus forever be with you."
+    "Epsilon" -> "I think I am within the limit, "
+        ++ "therefore, I am within the limit."
+    x = "You have much to learn of the maths."
+\end{minted}
 \ei
 
 \subsubsection{Iterative Constructs}
 \bi
     \item List comprehensions
+\begin{minted}{haskell}
+filterModThree :: [Int] -> [Int]
+filterModThree xs = [x | x <- xs, x `mod` 3 == 0]
+\end{minted}
     \item Map/fold
     \item Recursion
 \ei
@@ -146,7 +198,7 @@ assessWorth =
 \subsubsection{Functions}
 \bi
     \item Definition/use
-    \item Support parameter passing techniques
+    \item Parameter passing techniques
 \ei
 
 \subsubsection{Scoping}
