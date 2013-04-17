@@ -95,7 +95,7 @@ let myNum2 = (read myStr) + 2
     \item Functions: infix notation, named using alphanumeric characters in camel case
     \item Any function can be used as an operator by calling it in postfix notation
 \begin{minted}{haskell}
-f (Int a) => a -> a
+f :: (Int a) => a -> a -> a
 f a b = a + b
 ; invoke the function in postfix notation
 print (1 `f` 2)
@@ -106,7 +106,8 @@ print ((+) 2 5)
 \end{minted}
     \item Operators can be overloaded
 \begin{minted}{haskell}
-* a b = a * a * b
+(*) :: (Num a) => a -> a -> a
+(*) a b = a * a * b
 print (2 * 3)
 \end{minted}
 \ei
