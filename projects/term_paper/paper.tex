@@ -7,6 +7,12 @@
 
 \usepackage{minted}
 
+% aliases
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\bi}{\begin{itemize}}
+\newcommand{\ee}{\end{enumerate}}
+\newcommand{\ei}{\end{itemize}}
+
 \title{Programming Language Survey Paper on Haskell}
 \author{
         Kurt O'Hearn\\
@@ -16,10 +22,17 @@
 
 
 \begin{document}
+
 \maketitle 
+\setcounter{tocdepth}{3}
 \tableofcontents \newpage
 
 \section{Introduction}
+\bi
+    \item Origin and history
+    \item Explanation of the functional programming paradigm
+    \item Application domains of the language
+\ei
 [TODO]~\cite{learnyouahaskell}
 \begin{minted}{haskell}
 module Main where
@@ -35,8 +48,98 @@ test = do
 \section{Data and Control Abstractions}
 
 
-\subsection{Data Types and Type Checking}
-\subsection{Control Flow Mechanisms}
+\subsection{Data Abstractions}
+\subsubsection{Data Types}
+\bi
+    \item Basis data types: Int, Float, Char, Boolean, lists
+\begin{minted}{haskell}
+let i = 2
+let x = 3.14
+let c = 'c'
+let str = ['H','a','s','k','e','l','l','!']
+; shorthand for the above
+let str2 = "Haskell!"
+\end{minted}
+
+    \item Type variables: variables that can be any type (used in polymorphic functions)
+\begin{minted}{haskell}
+lastTwo :: [a] -> [a]
+lastTwo a = [a !! ((length a) - 2), a !! ((length a) - 1)]
+\end{minted}
+\ei
+
+\subsubsection{Type Checking}
+\bi
+    \item Haskell: static typing, type inferencing by context
+\begin{minted}{haskell}
+let myStr = "2"
+; will result in an exception as the desired type to convert to is
+; ambiguous since Haskell has no context to infer the type
+let myNum = read myStr
+; not ambiguous, as the compiler infers the Int type is desired
+let myNum2 = (read myStr) + 2
+\end{minted}
+    \item Type classes: Eq, Ord, Show/Read, Bounded, Enum, Num/Integral/Floating
+\ei
+
+\subsection{Control Abstractions}
+\subsubsection{Expressions}
+\bi
+    \item Function definitions
+    \item Binding: let, where
+\ei
+
+\subsubsection{Operators and Precedence}
+\bi
+    \item Operators: postfix notation, naming typically consists of symbols
+    \item Functions: infix notation, named using alphanumeric characters in camel case
+    \item Any function can be used as an operator by calling it in postfix notation
+\begin{minted}{haskell}
+f (Int a) => a -> a
+f a b = a + b
+; invoke the function in postfix notation
+print (1 `f` 2)
+\end{minted}
+    \item Any operator can be called as a function in infix notation
+\begin{minted}{haskell}
+print ((+) 2 5)
+\end{minted}
+    \item Operators can be overloaded
+\begin{minted}{haskell}
+* a b = a * a * b
+print (2 * 3)
+\end{minted}
+\ei
+
+\subsubsection{Selection Constructs}
+\bi
+    \item Pattern matching
+    \item if/then/else
+    \item Guards
+    \item Case expression
+\ei
+
+\subsubsection{Iterative Constructs}
+\bi
+    \item List comprehensions
+    \item Map/fold
+    \item Recursion
+\ei
+
+\subsubsection{Functions}
+\bi
+    \item Definition/use
+    \item Support parameter passing techniques
+\ei
+
+\subsubsection{Scoping}
+\bi
+    \item Static
+\ei
+
+\subsubsection{Modules}
+
+\subsubsection{Exception Handling}
 
 
 \section{Advanced Topics}
