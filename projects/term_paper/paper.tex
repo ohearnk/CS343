@@ -115,8 +115,24 @@ print (2 * 3)
 \subsubsection{Selection Constructs}
 \bi
     \item Pattern matching
+\begin{minted}{haskell}
+favoriteLang :: String -> String
+favoriteLang "Haskell" = "You have refined taste, my friend."
+favoriteLang "Clojure" = 
+    "The wise do not build a house on unsturdy ground."
+favoriteLang lang = lang ++ 
+    " is a fine choice, but you should give Haskell a spin."
+\end{minted}
     \item if/then/else
     \item Guards
+\begin{minted}{haskell}
+let balance = 200
+assessWorth :: Int -> String
+assessWorth =
+    | balance >= 100000 = "You're rich!"
+    | balance >= 100 = "You're rich by student standards!"
+    | otherwise = "Need a loan, friend?"
+\end{minted}
     \item Case expression
 \ei
 
