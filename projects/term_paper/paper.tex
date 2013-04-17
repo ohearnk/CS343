@@ -1,18 +1,36 @@
-\title{CIS 343: Programming Language Survey Paper on Haskell}
+% Author: Kurt O'Hearn
+% Author: Nicholas Olesak
+% Date: April 15, 2013
+% Class: CIS 343-02
+% Purpose: Progamming Language Survey Term Paper on Haskell
+\documentclass[titlepage,12pt]{article}
+
+\usepackage{minted}
+
+\title{Programming Language Survey Paper on Haskell}
 \author{
         Kurt O'Hearn\\
         Nicholas Olesak\\
 }
 \date{\today}
 
-\documentclass[12pt]{article}
 
 \begin{document}
-\maketitle
+\maketitle 
+\tableofcontents \newpage
 
 \section{Introduction}
 [TODO]~\cite{learnyouahaskell}
+\begin{minted}{haskell}
+module Main where
+import Data.List
 
+main :: IO ()
+main = putStrLn "Hello World!" >> test
+
+test = do 
+    print 123
+\end{minted}
 
 \section{Data and Control Abstractions}
 
