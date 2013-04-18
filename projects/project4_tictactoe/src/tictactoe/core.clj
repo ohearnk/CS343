@@ -14,6 +14,7 @@
 	(str " " (nth row 0) " | " (nth row 1) " | " (nth row 2))
 )
 
+
 ; Display the game board .
 (defn display [board]
 	(println) ; new line
@@ -25,27 +26,30 @@
 	(println) ; new line
 )
 
+
 ; Checks a specified row for 3 matches. 
 (defn row-match? [board row]
 	(if (= (nth (nth board row) 0) (nth (nth board row) 1) (nth (nth board row) 2)) true false)
 )
 
+
  ; Check a specified column for 3 matches. 
 (defn col-match? [board col]
 	(if (= (nth (nth board 0) col) (nth (nth board 1) col) (nth (nth board 2) col)) true false)
+;    (fold (= col) (map (nth board) '[0 1 2]))
 )
+
 
 ; Check both diagonals for 3 matches. 
 (defn diag-match? [board] 
-	(if (or 
-	
-	
+	(if (or 	
 			(= (nth (nth board 0) 0) (nth (nth board 1) 1) (nth (nth board 2) 2))
 			(= (nth (nth board 0) 2) (nth (nth board 1) 1) (nth (nth board 2) 0)))
 		true 
 		false
 	)
 )
+
 
 ; Determines if either a player has won the game yet. 
 (defn winner? [board]
@@ -56,6 +60,7 @@
 	(do  (display board) true)
 	false)
 )
+
   
 ; Returns "X" or "O" to represent the current player. 
 (defn get-current-player [moves]
@@ -65,6 +70,7 @@
 	)
 )
 	
+
 ; Update the board at the specified location for the current player.
 (defn update-board [board loc moves] 
 	(assoc 	board 
@@ -75,40 +81,45 @@
 				(get-current-player moves)))
 )
 
-;
+
 (defn valid-input? [x]
-	(try
-		(do (Integer/parseInt (str x)) true)
-	(catch java.lang.Exception e false)
-	)
+    (try
+        (if (number? (Integer/valueOf x))
+            true
+            false)
+    (catch java.lang.NumberFormatException e false))
 )
 
-; Checks user input for validity. 
-(defn valid-move? [board loc]
-	(try 
-	(if (and 
-			(valid-input? loc) 
-			(>= loc 1)
-			(<= loc 9)
-			(not= (nth(nth board (quot(- loc 1)3)) (mod(- loc 1)3)) "O")
-			(not= (nth(nth board (quot(- loc 1)3)) (mod(- loc 1)3)) "X"))
-		true
-		false)
-	(catch Exception e false)
-	)
+
+; Checks user input for validity.
+(defn valid-move? [board x]
+    (if (valid-input? x)
+        (do
+            (def loc (Integer/valueOf x))
+            (if (and 
+			        (>= loc 1)
+    			    (<= loc 9)
+	    		    (not= (nth(nth board (quot(- loc 1)3)) (mod(- loc 1)3)) "O")
+		    	    (not= (nth(nth board (quot(- loc 1)3)) (mod(- loc 1)3)) "X"))
+    		    true
+    		    false))
+        false)
 )
+
 
 ; Prompts the current player for a move and checks input for errors. 
 (defn get-move [board moves]
 	(display board)
-	(println (str "Player " (get-current-player moves) ", enter your move: "))
+	(print (str "Player " (get-current-player moves) ", enter your move: "))
+    (flush)
 	(let [loc (read-line)]
 		(if (valid-move? board loc)
-			(update-board board loc moves)
-			(do (println (str loc " is not a valid move. Please try again.\n")) (get-move board moves))
+			(update-board board (Integer/valueOf loc) moves)
+			(do (println (str "\n" loc " is not a valid move. Please try again.\n")) (get-move board moves))
 		)
 	)
 )
+
 
 ; Initial function that starts a game of tic tac toe and prints the final result.
 (defn tictactoe [board moves]
@@ -119,6 +130,7 @@
 		(do (display board) "Draw!\n\n"))
 	)
 )
+
 
 ; Main Function.
 (defn -main
