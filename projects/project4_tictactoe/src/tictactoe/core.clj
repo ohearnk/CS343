@@ -143,6 +143,8 @@
 	; Define a game board.
 	(def board [[1 2 3][4 5 6][7 8 9]])
 
-	; Start the tic tac toe game and print the result. 
+	; Start the tic tac toe game and print the result.
+    (println "Welcome to Tic-Tac-Toe++!")
+    (println "Enter a number between 1 and 9 to move or enter Quit to exit.")
 	(println (tictactoe board 9))
 )
