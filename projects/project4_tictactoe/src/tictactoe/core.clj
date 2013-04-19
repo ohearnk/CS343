@@ -113,11 +113,12 @@
 	(print (str "Player " (get-current-player moves) ", enter your move: "))
     (flush)
 	(let [loc (read-line)]
-		(if (valid-move? board loc)
-			(update-board board (Integer/valueOf loc) moves)
-			(do (println (str "\n" loc " is not a valid move. Please try again.\n")) (get-move board moves))
-		)
-	)
+        (if (or (= loc "Quit") (= loc "quit"))
+            (do (println "Bye!")
+                (System/exit 0))
+    		(if (valid-move? board loc)
+	    		(update-board board (Integer/valueOf loc) moves)
+		    	(do (println (str "\n" loc " is not a valid move. Please try again.\n")) (get-move board moves)))))
 )
 
 
