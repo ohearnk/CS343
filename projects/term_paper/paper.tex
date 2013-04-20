@@ -65,8 +65,12 @@ test = do
 
 \subsection{Data Abstractions}
 \subsubsection{Data Types}
-\bi
-    \item Basis data types: Int, Float, Char, Boolean, lists, tuples
+
+Haskell includes many of the data types that are standard in most languages: Numbers, Characters, and Boolean values. Sub-data types for numbers exist to explicitly define characteristics of the type of number represented. For example, Haskell has two types of integers: Int and Integer. Int has the system-defined maximum integer size as its range while Integer’s ranged is only bound by the available amount of memory, and thus re used for arbitrary precision integers. Haskell also has two floating point types: Float and Double, where a Double has twice the floating point precision of a Float.  
+
+Two more essential data types in Haskell are lists and tuples. Lists are the most used data type due to their expendability and the wide range of functions that are available to manipulate them. They can easily be created, traversed, concatenated, reversed, sorted, and more with standard, built-in functions. Lists, however, are homogeneous and can only contain elements of the same data type. Tuples, on the other hand, can be heterogeneous. They are useful when the types and exact number of values to be combined are known. Like lists, tuples also comes with a surplus of built-in functions, one of which is the ability to zip two lists into one by joining matching elements into pairs. Simple yet elegant code can be written which combines the attributes of lists, tuples, and the other various other data types in Haskell.
+
+
 \begin{minted}{haskell}
 let i = 2
 let x = 3.14
