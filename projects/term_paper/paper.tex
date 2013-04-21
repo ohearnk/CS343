@@ -38,14 +38,9 @@ Haskell is named after Haskell Curry, a logician whose work greatly contributed 
 
 \subsection{Functional Programming Paradigm}
 
-Haskell is a pure functional language, which means that its functions cannot change values, but rather only accept and return values. Each functions acts independently of other functions, and does not change the state of anything outside of its scope. This is referred to as having no ``side-effects,'' and it allows Haskell to be exceptionally optimized and permit parallel processing. In addition, functions do not have to be declared in a particular order since they all exist independently of one another. 
-
-In addition, it is also a lazy language; expressions in Haskell are not evaluated at binding time, but rather are evaluated only when the result is needed. 
-
-Type checking in Haskell is static and is performed at compile time. Haskell uses type-declarations for functions, in which the types of parameters and return values are explicitly defined. Any use of a function in which parameters do not meet the defined function type is flagged by the compiler, and compilation will be aborted. For example, the following function defines 
+Haskell is a pure functional language, which means that its functions cannot change values, but rather only accept and return values. Every function acts independently of other functions and does not change the state of anything outside of its scope. This is referred to as having no "side-effects," and it allows Haskell to be exceptionally optimized as well as to permit parallel processing. In addition, functions do not have to be declared in a particular order since they all exist independently of one another. 
 
 \subsection{Application Domains}
-
 
 
 [TODO]~\cite{learnyouahaskell}
@@ -65,38 +60,55 @@ test = do
 
 \subsection{Data Abstractions}
 \subsubsection{Data Types}
-\bi
-    \item Basis data types: Int, Float, Char, Boolean, lists, tuples
+
+Haskell includes many of the data types that are standard in most languages, such as Integers, Floats, Characters, and Boolean values. 
+
+ 
+
 \begin{minted}{haskell}
-let i = 2
-let x = 3.14
+let x = 2
+let pi = 3.14
 let c = 'c'
-let str = ['H','a','s','k','e','l','l','!']
-; shorthand for the above
-let str2 = "Haskell!"
-let t = (3.14, 'pi')
+let isHaskellAwesome = true
 \end{minted}
 
-    \item Type variables: variables that can be any type (used in polymorphic functions)
+Two more essential data types in Haskell are lists and tuples. Lists are the most used data type due to their expendability and the wide range of functions that are available to manipulate them. They can easily be created, traversed, concatenated, reversed, sorted, and more with standard, built-in functions. Lists, however, are homogeneous and can only contain elements of the same data type. Tuples, on the other hand, can be heterogeneous. They are useful when the types and exact number of values to be combined are known. Like lists, tuples also comes with a surplus of built-in functions, one of which is the ability to zip two lists into one by joining matching elements into pairs. Simple yet elegant code can be written which combines the attributes of lists, tuples, and the other various other data types in Haskell.
+
+\begin{minted}{haskell}
+let evens = [2, 4, 6, 8, 10]	-- list
+let t = (3.14, 'pi')		-- tuple
+\end{minted}
+
+Haskell also allows the definition Strings, which are represented by surrounding text with double quotes. Strings, however, are not actually a data type. Although they can be initialized using the double quote syntax, the compiler converts the string into a list of characters at compile time. The use of the String notation is simply syntatic sugar for programmers. It also helps increase the readability of code. In the following example, the data is stored in the representation of str1: a list of characters. However, Haskell allows the definition of a string using double quotes, as seen in str2, which is much more understandable.
+
+\begin{minted}{haskell}
+let str1 = ['H','a','s','k','e','l','l','!']
+let str2 = "Haskell!"
+\end{minted}
+
+In addition to these basic data types, Haskell also offers type variables. Type variables are variables whose type has not been explicitly declared; rather, they can be any type. By defining a function without declaring data types, the variables in the function can be used as any type and the function can be polymorphic. In the following example, the function can handle a list of any type because its uses a type variable. 
+
 \begin{minted}{haskell}
 lastTwo :: [a] -> [a]
 lastTwo a = [a !! ((length a) - 2), a !! ((length a) - 1)]
 \end{minted}
-\ei
 
 \subsubsection{Type Checking}
-\bi
-    \item Haskell: static typing, type inferencing by context
+Type checking in Haskell is performed statically at compile time. Haskell uses type-declarations for functions, in which the types of parameters and return values are explicitly defined. Any use of a function in which parameters do not meet the defined function type is flagged by the compiler, and compilation will be aborted. In addition, ues type inferencing by context. The type system in Haskell deduces obvious types and makes them concrete. In the following example, although the type of myNum is unknown at compile time, the compiler infers that the Int type is desired because myNum is added to an Int. 
+
 \begin{minted}{haskell}
-let myStr = "2"
-; will result in an exception as the desired type to convert to is
-; ambiguous since Haskell has no context to infer the type
-let myNum = read myStr
-; not ambiguous, as the compiler infers the Int type is desired
+let myStr = "2" 
 let myNum2 = (read myStr) + 2
 \end{minted}
-    \item Type classes: Eq, Ord, Show/Read, Bounded, Enum, Num/Integral/Floating
-\ei
+
+If the context does not suggest the type, as in the example below, then an exception will result because the compiler cannot infer what the type is going to be and is unable to handle it. 
+
+\begin{minted}{haskell}
+let myStr = "2" 
+let myNum = read myStr
+\end{minted}
+
+Haskell uses typeclasses to categorize the type system. Typeclasses define the behavior of a general type. A type must support the definition of its typeclass, but may also be more specific. For example, all of the operators in Haskell are categorized under the Eq typeclass. Other examples of typeclasses in Haskell include Ord, Show, Read, Enum, Num, Integral, and Floating. Typeclasses can be used to allow multiple types to be passed to a function. For example, to create a function that will accept both Int and Integer types, it's as simple as declaring its typeclass as Integral.
 
 \subsection{Control Abstractions}
 \subsubsection{Expressions}
