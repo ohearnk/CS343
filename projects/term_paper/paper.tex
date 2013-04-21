@@ -5,6 +5,7 @@
 % Purpose: Progamming Language Survey Term Paper on Haskell
 \documentclass[titlepage,12pt]{article}
 
+\usepackage{appendix}
 \usepackage{minted}
 
 % aliases
@@ -259,6 +260,13 @@ addFour x = x + 4
 \subsection{Concurrency Support}
 \subsection{Introspection}
 
+\newpage
+\begin{appendices}
+    \section{Project Implementation in Haskell}
+\inputminted{haskell}{src/InfixPostfix.hs}
+\newpage
+\inputminted{haskell}{src/InfixPostfixTest.hs}
+\end{appendices}
 
 \bibliographystyle{abbrv}
 \bibliography{paper}

@@ -21,7 +21,8 @@ infixToPostfix expr =
     let concatHigherPrec :: [String] -> String -> String
         concatHigherPrec [] _ = ""
         concatHigherPrec (x:xs) y
-            | (stackPrec x) >= (inputPrec y) = x ++ " " ++ (concatHigherPrec xs y)
+            | (stackPrec x) >= (inputPrec y) = x ++ " "
+                ++ (concatHigherPrec xs y)
             | otherwise = ""
 
         keepLowerPrec :: [String] -> String -> [String]
@@ -32,18 +33,24 @@ infixToPostfix expr =
 
         concatBeforeLeftParen :: [String] -> String
         concatBeforeLeftParen ("(":xs) = ""
-        concatBeforeLeftParen (x:xs) = x ++ " " ++ (concatBeforeLeftParen xs)
+        concatBeforeLeftParen (x:xs) = x ++ " "
+            ++ (concatBeforeLeftParen xs)
 
         removeToLeftParen :: [String] -> [String]
         removeToLeftParen ("(":xs) = xs
         removeToLeftParen (x:xs) = removeToLeftParen xs
 
-        parseExpr [] stack = (foldl (++) "" (zipWith (++) stack (replicate (length stack - 1) " "))) ++ (last stack)
+        parseExpr [] stack = 
+            (foldl (++) "" (zipWith (++) stack (replicate (length stack - 1) " ")))
+            ++ (last stack)
         parseExpr (x:xs) stack
             | isOperand x = x ++ " " ++ (parseExpr xs stack)
             | isLeftParen x = (parseExpr xs (x:stack))
-            | isOperator x = (concatHigherPrec stack x) ++ (parseExpr xs (x:(keepLowerPrec stack x)))
-            | (isRightParen x) && ("(" `elem` stack) = (concatBeforeLeftParen stack) ++ (parseExpr xs (removeToLeftParen stack))
+            | isOperator x = (concatHigherPrec stack x)
+                ++ (parseExpr xs (x:(keepLowerPrec stack x)))
+            | (isRightParen x) && ("(" `elem` stack) =
+                (concatBeforeLeftParen stack)
+                ++ (parseExpr xs (removeToLeftParen stack))
             | otherwise = error "Not a valid identifier: " ++ x
 
     in parseExpr (splitOn [' '] expr) []
@@ -55,7 +62,8 @@ evaluatePostfix expr = (parsePostfixExp (splitOn [' '] expr) [])
     where parsePostfixExp [] stack = head stack
           parsePostfixExp (x:xs) (s1:s2:stack)
               | isOperand x = parsePostfixExp xs (x:s1:s2:stack)
-              | isOperator x = parsePostfixExp xs ((applyOperator s2 s1 x):stack)
+              | isOperator x =
+                    parsePostfixExp xs ((applyOperator s2 s1 x):stack)
               | otherwise = error ("Not a valid identifier")
           parsePostfixExp (x:xs) stack = parsePostfixExp xs (x:stack)
 
