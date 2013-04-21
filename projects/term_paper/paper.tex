@@ -38,11 +38,7 @@ Haskell is named after Haskell Curry, a logician whose work greatly contributed 
 
 \subsection{Functional Programming Paradigm}
 
-Haskell is a pure functional language, which means that its functions cannot change values, but rather only accept and return values. Each functions acts independently of other functions, and does not change the state of anything outside of its scope. This is referred to as having no ``side-effects,'' and it allows Haskell to be exceptionally optimized and permit parallel processing. In addition, functions do not have to be declared in a particular order since they all exist independently of one another. 
-
-In addition, it is also a lazy language; expressions in Haskell are not evaluated at binding time, but rather are evaluated only when the result is needed. 
-
-
+Haskell is a pure functional language, which means that its functions cannot change values, but rather only accept and return values. Every function acts independently of other functions and does not change the state of anything outside of its scope. This is referred to as having no "side-effects," and it allows Haskell to be exceptionally optimized as well as to permit parallel processing. In addition, functions do not have to be declared in a particular order since they all exist independently of one another. 
 
 \subsection{Application Domains}
 
@@ -65,12 +61,16 @@ test = do
 
 \subsection{Data Abstractions}
 \subsubsection{Data Types}
-Haskell includes many of the data types that are standard in most languages: Numbers, Characters, and Boolean values. Sub-data types for numbers exist to explicitly define characteristics of the type of number represented. For example, Haskell has two types of integers: Int and Integer. Int has the system-defined maximum integer size as its range while Integer’s ranged is only bound by the available amount of memory, and thus re used for arbitrary precision integers. Haskell also has two floating point types: Float and Double, where a Double has twice the floating point precision of a Float.  
+
+Haskell includes many of the data types that are standard in most languages, such as Integers, Floats, Characters, and Boolean values. 
+
+ 
 
 \begin{minted}{haskell}
 let x = 2
 let pi = 3.14
 let c = 'c'
+let isHaskellAwesome = true
 \end{minted}
 
 Two more essential data types in Haskell are lists and tuples. Lists are the most used data type due to their expendability and the wide range of functions that are available to manipulate them. They can easily be created, traversed, concatenated, reversed, sorted, and more with standard, built-in functions. Lists, however, are homogeneous and can only contain elements of the same data type. Tuples, on the other hand, can be heterogeneous. They are useful when the types and exact number of values to be combined are known. Like lists, tuples also comes with a surplus of built-in functions, one of which is the ability to zip two lists into one by joining matching elements into pairs. Simple yet elegant code can be written which combines the attributes of lists, tuples, and the other various other data types in Haskell.
@@ -80,15 +80,14 @@ let evens = [2, 4, 6, 8, 10]	-- list
 let t = (3.14, 'pi')		-- tuple
 \end{minted}
 
-Haskell also has a String data type. Although Strings are represented by double quotations, they are actually stored as a list of characters. Thus, when specifiying a data type, String is equivalent to [Char]. 
+Haskell also allows the definition Strings, which are represented by surrounding text with double quotes. Strings, however, are not actually a data type. Although they can be initialized using the double quote syntax, the compiler converts the string into a list of characters at compile time. The use of the String notation is simply syntatic sugar for programmers. It also helps increase the readability of code. In the following example, the data is stored in the representation of str1: a list of characters. However, Haskell allows the definition of a string using double quotes, as seen in str2, which is much more understandable.
 
 \begin{minted}{haskell}
 let str1 = ['H','a','s','k','e','l','l','!']
-let str2 = "Haskell!" 	-- a string representation of str1
+let str2 = "Haskell!"
 \end{minted}
 
 In addition to these basic data types, Haskell also offers type variables. Type variables are variables whose type has not been explicitly declared; rather, they can be any type. By defining a function without declaring data types, the variables in the function can be used as any type and the function can be polymorphic. In the following example, the function can handle a list of any type because its uses a type variable. 
-
 
 \begin{minted}{haskell}
 lastTwo :: [a] -> [a]
