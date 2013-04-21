@@ -143,7 +143,8 @@ where   faceArea l w = l * w
         baseArea = l * h
 \end{minted}
 \begin{minted}{haskell}
-myExp =
+myExp :: Float -> Float
+myExp x =
     let e = 2.7182
     in  e ** x
 \end{minted}
@@ -220,7 +221,16 @@ filterModThree :: [Int] -> [Int]
 filterModThree xs = [x | x <- xs, x `mod` 3 == 0]
 \end{minted}
     \item Map/fold
+\begin{minted}{haskell}
+sumSquares :: (Num a) => [a] -> a
+sumSquares xs = foldr1 (+) (map (**2) xs)
+\end{minted}
     \item Recursion
+\begin{minted}{haskell}
+countdown :: Int -> String
+countdown 0 = "Blast-off!"
+countdown x = (show x) ++ "...\n" ++ countdown (x-1)
+\end{minted}
 \ei
 
 \subsubsection{Functions}
@@ -260,15 +270,19 @@ addFour x = x + 4
 \subsection{Concurrency Support}
 \subsection{Introspection}
 
+
 \newpage
 \begin{appendices}
-    \section{Project Implementation in Haskell}
+\section{Project Implementation in Haskell}
 \inputminted{haskell}{src/InfixPostfix.hs}
 \newpage
 \inputminted{haskell}{src/InfixPostfixTest.hs}
 \end{appendices}
 
+
+\newpage
 \bibliographystyle{abbrv}
 \bibliography{paper}
+
 
 \end{document}
