@@ -32,13 +32,28 @@ This paper provides an overview of the Haskell programming language.
 
 \subsection{Origin and History}
 
-In the early 1930s, Alonzo Church formulated a mathematical abstraction known as lambda calculus, which involves the description and evaluation of functions in mathematics (Haskell). Lambda calculus became the foundation for functional programming (``Haskell''). However, as numerous functional languages began to develop, all of which were similar in expressiveness and semantics, there became the need for a standard functional language to aid the spread of functional programming (Hudak 1). A meeting was held in 1987 at a Functional Programming Languages and Computer Architecture conference to address this need (Hudak 1). The meeting resulted in the formation of a committee to design a standard functional language. In 1990, the committee produced their result: a consolidation of existing functional programming languages into an open standard, common language to be used for functional programming research: Haskell (Hudak 3).
+In the early 1930s, Alonzo Church formulated a mathematical abstraction known as lambda calculus, which involves the description 
+and evaluation of functions in mathematics. Lambda calculus became the foundation for functional programming~\cite{haskell-wiki}. 
+However, as numerous functional languages began to develop, all of which were similar in expressiveness and semantics, there 
+became the need for a standard functional language to aid the spread of functional programming. A meeting was held 
+in 1987 at a Functional Programming Languages and Computer Architecture conference to address this need~\cite{hudak-hist}. The meeting 
+resulted in the formation of a committee to design a standard functional language. In 1990, the committee produced their result: 
+a consolidation of existing functional programming languages into an open standard, common language to be used for 
+functional programming research: Haskell~\cite{hudak-con}.
 
-Haskell is named after Haskell Curry, a logician whose work greatly contributed to functional programming. It has a lambda as its logo to symbolize lambda calculus as its foundation. Today, Haskell is widely used in many different aspects of computing. From AT\&T's automated processing of abuse complaints in its network security division to the National Radio Astronomy Observatory’s implementation of core science algorithms, Haskell can be found in many aspects of modern industry (``Haskell''). 
+Haskell is named after Haskell Curry, a logician whose work greatly contributed to functional programming. It has a 
+lambda as its logo to symbolize lambda calculus as its foundation. Today, Haskell is widely used in many different aspects 
+of computing. From AT\&T's automated processing of abuse complaints in its network security division to the National 
+Radio Astronomy Observatory’s implementation of core science algorithms, Haskell can be found in many aspects of 
+modern industry~\cite{haskell-wiki}. 
 
 \subsection{Functional Programming Paradigm}
 
-Haskell is a pure functional language, which means that its functions cannot change values, but rather only accept and return values. Every function acts independently of other functions and does not change the state of anything outside of its scope. This is referred to as having no "side-effects," and it allows Haskell to be exceptionally optimized as well as to permit parallel processing. In addition, functions do not have to be declared in a particular order since they all exist independently of one another. 
+Haskell is a pure functional language, which means that its functions cannot change values, but rather only accept and 
+return values. Every function acts independently of other functions and does not change the state of anything outside 
+of its scope. This is referred to as having no "side-effects," and it allows Haskell to be exceptionally optimized as 
+well as to permit parallel processing. In addition, functions do not have to be declared in a particular order since 
+they all exist independently of one another. 
 
 \subsection{Application Domains}
 
@@ -214,16 +229,15 @@ filterModThree xs = [x | x <- xs, x `mod` 3 == 0]
 \ei
 
 \subsubsection{Scoping}
-\bi
-    \item Static
-\ei
+In Haskell, static scoping is employed for 
 
 \subsubsection{Modules}
 \begin{minted}{haskell}
-module addNums
-( addTwo
-, addThree
-, addFour
+module myMod 
+( 
+addTwo,
+addThree,
+addFour
 ) where
 
 addTwo :: (Num a) => a -> a
@@ -238,11 +252,13 @@ addFour x = x + 4
 \subsubsection{Exception Handling}
 
 
+
 \section{Advanced Topics}
 
 \subsection{Inheritance}
 \subsection{Concurrency Support}
 \subsection{Introspection}
+
 
 \bibliographystyle{abbrv}
 \bibliography{paper}
