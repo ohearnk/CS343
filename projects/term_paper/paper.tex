@@ -219,7 +219,22 @@ filterModThree xs = [x | x <- xs, x `mod` 3 == 0]
 \ei
 
 \subsubsection{Modules}
+\begin{minted}{haskell}
+module addNums
+( addTwo
+, addThree
+, addFour
+) where
 
+addTwo :: (Num a) => a -> a
+addTwo x = x + 2
+
+addThree :: (Num a) => a -> a
+addThree x = x + 3
+
+addFour :: (Num a) => a -> a
+addFour x = x + 4
+\end{minted}
 \subsubsection{Exception Handling}
 
 
