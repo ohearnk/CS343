@@ -9,10 +9,9 @@
 -}
 
 module InfixPostfix
-( infixToPostfix
-, evaluatePostfix
-)
-where
+( infixToPostfix,
+evaluatePostfix
+) where
 
 import Data.List.Split
 
