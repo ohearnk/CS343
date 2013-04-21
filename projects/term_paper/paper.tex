@@ -43,7 +43,6 @@ Haskell is a pure functional language, which means that its functions cannot cha
 \subsection{Application Domains}
 
 
-
 [TODO]~\cite{learnyouahaskell}
 \begin{minted}{haskell}
 module Main where
@@ -102,16 +101,14 @@ let myStr = "2"
 let myNum2 = (read myStr) + 2
 \end{minted}
 
-If the context does not suggest the type, as in the example below, then an exception will result. 
+If the context does not suggest the type, as in the example below, then an exception will result because the compiler cannot infer what the type is going to be and is unable to handle it. 
 
 \begin{minted}{haskell}
 let myStr = "2" 
 let myNum = read myStr
 \end{minted}
 
-
 Haskell uses typeclasses to categorize the type system. Typeclasses define the behavior of a general type. A type must support the definition of its typeclass, but may also be more specific. For example, all of the operators in Haskell are categorized under the Eq typeclass. Other examples of typeclasses in Haskell include Ord, Show, Read, Enum, Num, Integral, and Floating. Typeclasses can be used to allow multiple types to be passed to a function. For example, to create a function that will accept both Int and Integer types, it's as simple as declaring its typeclass as Integral.
-
 
 \subsection{Control Abstractions}
 \subsubsection{Expressions}
