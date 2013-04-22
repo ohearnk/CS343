@@ -221,6 +221,7 @@ The syntax of \texttt{let} bindings involved declaring the bindings inside a \te
 expression inside an \texttt{in} declaration. The \texttt{let} and \texttt{in} statements must be aligned in the same column. 
 
 \begin{minted}{haskell}
+myExp :: (Num a) => a -> a
 myExp =
     let e = 2.7182
     in  e ** x
@@ -332,36 +333,71 @@ favoriteMathSymbol x = case x of
 \end{minted}
 
 \subsubsection{Iterative Constructs}
-\bi
-    \item List comprehensions
+
+In Haskell, multiple constructs are supplied for the programmer to perform repetitive tasks including
+list comprehensions, map- and fold-style functions, and function recursion.
+
+List comprehensions in Haskell are a means to transform the elements in a list in some manner.
+To facilitate the transformation, multiple parts are in the construct are used: the input elements, the
+predicates, and the output function.  The iput elements are typically derived from another list.  Then,
+the predicates are applied to each of these elements in other to restrict the input set.  Finally, the
+restricted set then has the output function applied to every element in this set and the resuling list
+is returned.  An exmaple below is given where \texttt{xs} is the input list, \texttt{x `mod` 3 == 0} is
+a predicate used for filtering, and \texttt{x} is the simple output function.
 \begin{minted}{haskell}
 filterModThree :: [Int] -> [Int]
 filterModThree xs = [x | x <- xs, x `mod` 3 == 0]
 \end{minted}
-    \item Map/fold
+
+Maps and folds are in many ways similar to list comprehensions.  In a map, a function is specified to apply to
+every element of a list to produce a new list.  A fold in Haskell aggregates all of the elements in a list into
+a single data type using some user-specified function.  An example using both map and reduce is given below.
+In this example, every element in a list is first squared (mapped) and the resulting list is then summed up (folded).
 \begin{minted}{haskell}
 sumSquares :: (Num a) => [a] -> a
 sumSquares xs = foldr1 (+) (map (**2) xs)
 \end{minted}
-    \item Recursion
+
+All of the previous iterative constructs covered to this point share one thing in common:
+they all could be implemented by recursion.  Recursion is the fundamental construct for iterating
+in Haskell.  Recursion is implemented in functions in Haskell through pattern matching.  The boundary
+case in a recursive definition terminates the iteration; the recursive process is typically defined using pattern matching,
+where the boundary case is specificed with some pattern while the recurive case is set up as the default case.
+The function below demonstrates this scenario by pattern matching on an integer value of the input parameter \texttt{x}.
 \begin{minted}{haskell}
 countdown :: Int -> String
 countdown 0 = "Blast-off!"
 countdown x = (show x) ++ "...\n" ++ countdown (x-1)
 \end{minted}
-\ei
+
+It is worth noting that in Haskell, tail and guarded recursion are both utilized for improved performance 
+by minimizing the function frame allocations on the stack.  However, because of the lazy-evaluation philosophy of Haskell,
+recursions may be foregone until required, thereby negating the need for recursion optimization in some instances~\cite{haskell-tail-recur}.
 
 \subsubsection{Functions}
+
+Up to this point, several functions have been defined and used in the examples.  As Haskell is a functional programming
+language, functions are the primary modular construct employed to accomplish tasks.  Worth noting here, the parameter passing techniques
+supported in functions are by default explicit.  That is, bindings can be scoped to functions by explicitly invoking a function
+with the arguments that want to be scoped to the function in general.  However, there are a few notable exceptions that the community
+has developed to support implicit parameter passing to functions of some degree:
 \bi
-    \item Definition/use
-    \item Parameter passing techniques
+    \item Constant function definitions can be employed at the top level of a module~\cite{haskell-implicit-params}
+    \item Monads can be utilized to effectively hide global definitions~\cite{haskell-implicit-params}
 \ei
 
 \subsubsection{Scoping}
-In Haskell, static scoping is employed.  As such, bindings are localized
-to the function in which they were defined or passed.
+In Haskell, static scoping is employed in resolving the origins of bindings.  As such, active bindings are first those localized
+to the function followed by global scope.  As such, bindings within callee functions are not active in the caller function
+unless explicitly passed as parameters.  This tenent of staticly binding within functions
+works toward the end of keeping functions from producing any side-effects~\cite{haskell-scope}.
 
 \subsubsection{Modules}
+
+Modules in Haskell are the basic unit of organizing functions and other constructs.  The standard Haskell library
+is composed of thousands of well-developed and maintained modules for a variety of purposes.  In the example below,
+three functions are defined and made available to any other program that imports this module.
+
 \begin{minted}{haskell}
 module myMod 
 ( 
@@ -461,6 +497,22 @@ class  (Eq a) => Ord a  where
 
 \subsection{Concurrency Support}
 
+In Haskell, there is a mature library of modules for built-in and extension-level
+concurrency and parallelism~\cite{haskell-concurr}.  Platforms supported for concurrent and parallel execution include shared- and
+distributed-memory systems, accelerator-style devices (e.g., general-purpose programming), and
+symmetric and unsymmetric architectures~\cite{par-funk}.  Multi-threading and multiprocessing capabilities are available in
+the standard Haskell library.  In the following example, multiple user-level threads are created for printing
+to the main terminal device, one of which prints the word ``Hello'' while the other prints ``world.''
+
+on graphics processing units)
+\begin{minted}{haskell}
+import Control.Concurrent
+import System.IO
+
+main :: IO ()
+main = do { forkIO (hPutStr stdout "Hello")
+            ; hPutStr stdout " world\n" }
+\end{minted}
 
 \subsection{Introspection and Reflection}
 
