@@ -39,26 +39,26 @@ Section 3 presents a brief look at several extensions beyond the Haskell core.
 
 In the early 1930s, Alonzo Church formulated a mathematical abstraction known as lambda calculus, which involves the description 
 and evaluation of functions in mathematics. Lambda calculus became the foundation for functional programming~\cite{haskell-wiki}. 
-However, as numerous functional languages began to develop, all of which were similar in expressiveness and semantics, there 
-became the need for a standard functional language to aid the spread of functional programming. A meeting was held 
+However, as numerous functional languages began to develop, many exhibited similar expressiveness and semantics.  This led to
+desire for a standard functional language to aid the spread of functional programming. A meeting was held 
 in 1987 at a Functional Programming Languages and Computer Architecture conference to address this need~\cite{hudak-hist}. The meeting 
-resulted in the formation of a committee to design a standard functional language. In 1990, the committee produced their result: 
-a consolidation of existing functional programming languages into an open standard, common language to be used for 
+resulted in the formation of a committee to design a standard functional language. In 1990, the committee performed 
+a consolidation of the aspects of existing functional programming languages into an open standard, common language to be used for 
 functional programming research: Haskell~\cite{hudak-con}.
 
-Haskell is named after Haskell Curry, a logician whose work greatly contributed to functional programming. It has a 
-lambda as its logo to symbolize lambda calculus as its foundation. Today, Haskell is widely used in many different aspects 
+Haskell is named after Haskell Curry, a logician whose work greatly contributed to functional programming. The logo of Haskell, lambda,
+symbolize lambda calculus as its foundation. Today, Haskell is widely used in many different aspects 
 of computing. From AT\&T's automated processing of abuse complaints in its network security division to the National 
 Radio Astronomy Observatory’s implementation of core science algorithms, Haskell can be found in many aspects of 
 modern industry~\cite{haskell-wiki}. 
 
 \subsection{Functional Programming Paradigm}
 
-Haskell is a pure functional language, which means that its functions cannot change values, but rather only accept and 
-return values. Every function acts independently of other functions and does not change the state of anything outside 
-of its scope. This is referred to as having no "side-effects," and it allows Haskell to be exceptionally optimized as 
-well as to permit parallel processing. In addition, functions do not have to be declared in a particular order since 
-they all exist independently of one another. 
+The core of Haskell is a pure functional language, which means that its functions possess no concept of memory locations or other
+hardware-related statefullness. Every function acts independently of other functions and does not change the state of anything outside 
+its scope. This concept is referred to as having no ``side-effects,'' and this affords Haskell a certain simplicity in design
+and implementation, as well as lends itself to other means such as optimization toward parallel processing. In addition,
+functions do not have to be declared in a particular order since they all exist independently of one another. 
 
 \subsection{Application Domains}
 
@@ -70,21 +70,25 @@ Other popular uses of Haskell include the development of domain specific languag
 hardware design firms, finance, and aerospace and defense. Haskell's use in commercial industry ranges from AT\&T's 
 automated processing of abuse complaints to the National Radio Astronomy Observatory’s implementation of core science algorithms.
 
-[TODO]~\cite{learnyouahaskell}
-\begin{minted}{haskell}
-module Main where
-import Data.List
-
-main :: IO ()
-main = putStrLn "Hello World!" >> test
-
-test = do 
-    print 123
-\end{minted}
 
 \section{Data and Control Abstractions}
+This section presents a tutorial-style introduction to the core concepts of
+the Haskell language~\cite{learnyouahaskell}.  Data and control abstractions are covered
+in the proceeding sections.  To begin with, the obligatory ``Hello, World!'' program is Haskell
+is presented below.
+
+\begin{minted}{haskell}
+module Main where
+
+main :: IO ()
+main = putStrLn "Hello World!"
+\end{minted}
 
 \subsection{Data Abstractions}
+Haskell supports a very rich, strong, static type system for programmers.  As Haskell is
+a compiled language, with the Glasgow Haskell Compiler (GHC) being the most common implementation,
+most of the type checking is done and enforced at compile time.
+
 \subsubsection{Data Types}
 
 Haskell includes many of the data types that are standard in most languages, such as Integers, Floats, Characters, and Boolean values. 
