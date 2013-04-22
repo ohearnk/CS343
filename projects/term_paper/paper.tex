@@ -29,7 +29,10 @@
 \tableofcontents \newpage
 
 \section{Introduction}
-This paper provides an overview of the Haskell programming language.
+This paper provides an overview of the Haskell programming language.  The sections are outlined as follows:
+section 1 describes the background surrounding Haskell, including its connections to functional programming,
+and its usage today.  Section 2 provides a survey of many of the data and control constructs native to Haskell.
+Section 3 presents a brief look at several extensions beyond the Haskell core.
 
 \subsection{Origin and History}
 
@@ -169,7 +172,7 @@ print ((+) 2 5)
     \item Operators can be overloaded
 \begin{minted}{haskell}
 (*) :: (Num a) => a -> a -> a
-(*) a b = a * a * b
+(*) a b = a + a + a + a
 print (2 * 3)
 \end{minted}
 \ei
@@ -240,7 +243,8 @@ countdown x = (show x) ++ "...\n" ++ countdown (x-1)
 \ei
 
 \subsubsection{Scoping}
-In Haskell, static scoping is employed for 
+In Haskell, static scoping is employed.  As such, bindings are localized
+to the function in which they were defined or passed.
 
 \subsubsection{Modules}
 \begin{minted}{haskell}
@@ -265,10 +269,27 @@ addFour x = x + 4
 
 
 \section{Advanced Topics}
+Beyond the basic data and control structures discussed to this point,
+Haskell contains a wide array of constructs, extension modules, and
+and other features.  This section considers the following advanced
+topics: inheritance, concurrency, and runtime type checking.
 
 \subsection{Inheritance}
+
+
 \subsection{Concurrency Support}
-\subsection{Introspection}
+
+
+\subsection{Introspection and Reflection}
+As mentioned previously, Haskell posesses a strong static type system
+implented at compile time. As such, the Haskell '98 language definition
+does not provide support for runtime type examination or manipulation
+(i.e., introspection and reflection, respectively).  However, effors have been
+made toward adding support similar to these features:
+\bi
+    \item Scrap your boilerplate: generic programming~\cite{haskell-syb}
+    \item Template Haskell: an extension module for compile-time metaprogramming~\cite{haskell-th}
+\ei
 
 
 \newpage
