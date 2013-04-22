@@ -390,11 +390,26 @@ topics: inheritance, concurrency, and runtime type checking.
 
 \subsection{Inheritance}
 
+Inheritance in Haskell can be achieved through class extension, which involves a class defined as a subclass 
+of another class. The subclass then inherits all of the operations in the superclass. A benefit to class 
+extension is shorter contexts: a type expression for a function that uses operations from both the subclass 
+and the superclass only has to use the context of the subclass. Additionally, methods for subclass 
+operations can assume the existence of methods for superclass operations.
+
+The following class definition of Ord inherits all of the operations in Eq, but also includes the comparison 
+operators as well as maximum and minimum functions.
+
+\begin{minted}{haskell}
+class  (Eq a) => Ord a  where
+    (<), (<=), (>=), (>)  :: a -> a -> Bool
+    max, min              :: a -> a -> a
+\end{minted}
 
 \subsection{Concurrency Support}
 
 
 \subsection{Introspection and Reflection}
+
 As mentioned previously, Haskell posesses a strong static type system
 implented at compile time. As such, the Haskell '98 language definition
 does not provide support for runtime type examination or manipulation
