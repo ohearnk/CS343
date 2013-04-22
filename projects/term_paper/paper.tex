@@ -31,7 +31,7 @@
 
 \section{Introduction}
 This paper provides an overview of the Haskell programming language.  The sections are outlined as follows:
-section 1 describes the background surrounding Haskell, including its connections to functional programming,
+Section 1 describes the background surrounding Haskell, including its connections to functional programming
 and its usage today.  Section 2 provides a survey of many of the data and control constructs native to Haskell.
 Section 3 presents a brief look at several extensions beyond the Haskell core.
 
@@ -48,21 +48,19 @@ functional programming research: Haskell~\cite{hudak-con}.
 
 Haskell is named after Haskell Curry, a logician whose work greatly contributed to functional programming. The logo of Haskell, lambda,
 symbolize lambda calculus as its foundation. Today, Haskell is widely used in many different aspects 
-of computing. From AT\&T's automated processing of abuse complaints in its network security division to the National 
-Radio Astronomy Observatory’s implementation of core science algorithms, Haskell can be found in many aspects of 
-modern industry~\cite{haskell-wiki}. 
+of computing.
 
 \subsection{Functional Programming Paradigm}
 
 The core of Haskell is a pure functional language, which means that its functions possess no concept of memory locations or other
 hardware-related statefullness. Every function acts independently of other functions and does not change the state of anything outside 
 its scope. This concept is referred to as having no ``side-effects,'' and this affords Haskell a certain simplicity in design
-and implementation, as well as lends itself to other means such as optimization toward parallel processing. In addition,
+and implementation, as well as lends it to other means such as optimization toward parallel processing. In addition,
 functions do not have to be declared in a particular order since they all exist independently of one another. 
 
 \subsection{Application Domains}
 
-Haskell is most commonly used for the development of substantial software systems. The language is designed to produce
+Haskell is most commonly used for the development of substantial software systems. The language is designed to increase
 productivity from programmers in fewer lines of code. In addition, having no side-effects leads to fewer errors.
 These features are very important in the development of large software systems, and Haskell is an ideal choice. 
 
@@ -87,7 +85,7 @@ main = putStrLn "Hello World!"
 \subsection{Data Abstractions}
 Haskell supports a very rich, strong, static type system for programmers.  As Haskell is
 a compiled language, with the Glasgow Haskell Compiler (GHC) being the most common implementation,
-most of the type checking is done and enforced at compile time.
+most of the type checking is performed and enforced at compile time.
 
 \subsubsection{Data Types}
 
@@ -103,7 +101,7 @@ let isHaskellAwesome = True
 Two more foundational data types in Haskell are lists and tuples. Lists are the most used data type due to their expendability 
 and the wide range of functions that are available to manipulate them. They can easily be created, traversed, concatenated, 
 reversed, sorted, and more with standard, built-in functions. Lists, however, are homogeneous, ordered collections of
-similar data types. Tuples, on the other hand, heterogeneous collections. Tuples are most useful when the types and exact number of 
+similar data types. Tuples, on the other hand, are heterogeneous collections. Tuples are most useful when the types and exact number of 
 values to be combined are known. Like lists, there is a wide array of built-in functions for tuples including, for instance,
 a function for zipping two lists into one by joining matching elements into tuples. Simple yet elegant code can be written by
 employing lists, tuples, and the other various other data types in Haskell.
@@ -116,8 +114,7 @@ let t = (3.14, 'pi')		-- tuple
 Haskell also allows the definition Strings, which are represented by surrounding text with double quotes. Strings, however, 
 are not their own data type. Although string literals can be initialized using the double quote syntax, the compiler converts the 
 string into a list of characters at compile time. The use of the String notation is simply syntatic sugar for programmers. 
-It also helps increase the readability of code. In the following example, the data is stored in the representation of 
-str1: a list of characters. However, Haskell allows the definition of a string using double quotes, as seen in \texttt{str2}, 
+It also helps increase the readability of code. In the following example, \texttt{str1} shows how the data for a string is actually stored: as a list of characters. However, Haskell allows the definition of a string using double quotes, as seen in \texttt{str2}, 
 which is much more understandable.
 
 \begin{minted}{haskell}
@@ -139,7 +136,7 @@ lastTwo a = [a !! ((length a) - 2), a !! ((length a) - 1)]
 Type checking in Haskell is performed statically at compile time. Haskell uses type-declarations for functions, in 
 which the types of parameters and return values are explicitly defined. Any use of a function in which parameters 
 do not meet the defined function type is flagged by the compiler, and compilation will be aborted. In addition, 
-use type inferencing by context. The type system in Haskell deduces obvious types and makes them concrete. In the 
+Haskell uses type inferencing by context. The type system in Haskell deduces obvious types and makes them concrete. In the 
 following example, although the type of myNum is unknown at compile time, the compiler infers that the Int type 
 is desired because myNum is added to an Int. 
 
@@ -188,10 +185,7 @@ print (2 `elem` evens) -- infix  notation
 
 The data type for each parameter of a function can be explicitly declared by using the \texttt{::} symbol, which is 
 read as ``has a type of.''  The types of the parameters can be listed in order, and the last type in the list 
-is the return type. The following function is called \texttt{greet}.
-
-It takes in a string and returns a string. The string is passed in as the variable \texttt{name}. Everything that follows 
-the equal sign is the expression, and the evaluation of this expression is the return value. 
+is the return type. The following function is called \texttt{greet}. It takes in a string and returns a string. The string is passed in as the variable \texttt{name}. Everything that follows the equal sign is the expression, and the evaluation of this expression is the return value. 
 
 \begin{minted}{haskell}
 greet :: String -> String
@@ -217,7 +211,7 @@ where   faceArea l w = l * w
 
 The second type of binding available in Haskell is done using \texttt{let} bindings. \texttt{let} bindings allow the declaration of 
 variables that are expressions themselves and are locally bound.  \texttt{let} bindings are often used for pattern matching. 
-The syntax of \texttt{let} bindings involved declaring the bindings inside a \texttt{let} declaration, followed by defining an 
+The syntax of \texttt{let} bindings involves declaring the bindings inside a \texttt{let} declaration, followed by defining an 
 expression inside an \texttt{in} declaration. The \texttt{let} and \texttt{in} statements must be aligned in the same column. 
 
 \begin{minted}{haskell}
@@ -234,9 +228,9 @@ span across guards.
 \subsubsection{Operators and Precedence}
 
 Operators in Haskell are typically represented with symbols. Some of the basic operators in Haskell include addition, 
-subtraction, multiplication, divison, exponentiation, concatenation, and equality operators and logic operators. The 
+subtraction, multiplication, divison, exponentiation, concatenation, and equality and logic operators. The 
 precedence of operators conform to the standard orders used in mathematics: exponentiation is highest, followed by 
-muliplication and visision, with addition and subtraction with the lowest precedence.  
+muliplication and division, with addition and subtraction assuming the lowest precedence.  
 
 All operators in Haskell are binary, and they are usually called using infix notation; that is, the operator is 
 placed between its two arguments. Although it is possible to use operators in prefix notation, it is customary to use 
@@ -260,8 +254,8 @@ print (2 * 3)   -- yields 8 rather than 6
 Selection constructs in Haskell consist of if-else statements, guards, pattern matching, and case expressions. 
 
 If-else statements in Haskell conform to the traditional syntax of the if-else selection construct. The only notable 
-difference is that Haskell requires that every conditional is followed by a then expression and an else expression. 
-The compiler will prevent compilation for any if conditional that does not also have then and else statements because 
+difference is that Haskell requires that every \texttt{if} conditional statement is followed by a \texttt{then} expression and an \texttt{else} expression. 
+The compiler will prevent compilation for any \texttt{if} conditional that does not also have \texttt{then} and \texttt{else} statements because 
 without them it would be possible for an input to cause a function not to have a return value, which Haskell does not allow.
 
 \begin{minted}{haskell}
@@ -278,12 +272,12 @@ expression of a function and consist of a conditional, which must evaluate to tr
 An equals sign separates the conditional from the expression. Arguments are checked against the guards in 
 sequential order. If the condition is true, then the expression for that guard is evaluated and returned. 
 If the condition is false, then the next guard condition is evaluated, and this pattern continues until the 
-`otherwise' guard is reached, which catches all input that did not match any guard previous conditions. The 
+\texttt{otherwise} guard is reached, which catches all input that did not match any guard previous conditions. The 
 following function has three guards, each following a pipe. A notable aspect of this function is that if the 
 input is value is greater than 100,000 it will cause the first guard condition to be true and will evaluate the 
 first guard expression even though the input would also be true for the second guard. This is because the guards are 
-checked in order, so the second guard is never checked because the first guard is true and the return value is 
-determined from it. The otherwise guard is placed at the bottom to catch any value that does not cause the first two guards to be true. 
+checked in the order which they are defined, so the second guard is never checked in this case because the first guard is true and the return value is 
+determined from it. The \texttt{otherwise} guard is placed at the bottom to catch any value that does not cause the first two guards to be true. 
 
 \begin{minted}{haskell}
 let balance = 200
@@ -298,7 +292,7 @@ Another selection construct in Haskell is pattern matching. Pattern matching is 
 function perform different actions based on its input. Pattern matching is done by defining a function multiple times in 
 succession using patterns in place of parameters.  When the function is called, its arguments are checked against all patterns,
 starting with the first and proceeding accordingly.  If no match is made, an exception is raised.
-A default match can be speficied by listing `plain' variables as function parameters.
+A default match can be specified by using variables as function parameters rather than a pattern.
 
 In the following example, an input of ``Haskell'' will produce the first expression, ``Clojure'' will skip the first 
 and produce the second, and any other input will produce the third. Note that the third and final expression does 
@@ -339,11 +333,12 @@ list comprehensions, map- and fold-style functions, and function recursion.
 
 List comprehensions in Haskell are a means to transform the elements in a list in some manner.
 To facilitate the transformation, multiple parts are in the construct are used: the input elements, the
-predicates, and the output function.  The iput elements are typically derived from another list.  Then,
+predicates, and the output function.  The input elements are typically derived from another list.  Then,
 the predicates are applied to each of these elements in other to restrict the input set.  Finally, the
-restricted set then has the output function applied to every element in this set and the resuling list
-is returned.  An exmaple below is given where \texttt{xs} is the input list, \texttt{x `mod` 3 == 0} is
+restricted set then has the output function applied to every element in this set and the resulting list
+is returned.  An example below is given where \texttt{xs} is the input list, \texttt{x `mod` 3 == 0} is
 a predicate used for filtering, and \texttt{x} is the simple output function.
+
 \begin{minted}{haskell}
 filterModThree :: [Int] -> [Int]
 filterModThree xs = [x | x <- xs, x `mod` 3 == 0]
@@ -353,6 +348,7 @@ Maps and folds are in many ways similar to list comprehensions.  In a map, a fun
 every element of a list to produce a new list.  A fold in Haskell aggregates all of the elements in a list into
 a single data type using some user-specified function.  An example using both map and reduce is given below.
 In this example, every element in a list is first squared (mapped) and the resulting list is then summed up (folded).
+
 \begin{minted}{haskell}
 sumSquares :: (Num a) => [a] -> a
 sumSquares xs = foldr1 (+) (map (**2) xs)
@@ -362,8 +358,9 @@ All of the previous iterative constructs covered to this point share one thing i
 they all could be implemented by recursion.  Recursion is the fundamental construct for iterating
 in Haskell.  Recursion is implemented in functions in Haskell through pattern matching.  The boundary
 case in a recursive definition terminates the iteration; the recursive process is typically defined using pattern matching,
-where the boundary case is specificed with some pattern while the recurive case is set up as the default case.
+where the boundary case is specified with a pattern while the recursive case is set up as the default case.
 The function below demonstrates this scenario by pattern matching on an integer value of the input parameter \texttt{x}.
+
 \begin{minted}{haskell}
 countdown :: Int -> String
 countdown 0 = "Blast-off!"
@@ -376,10 +373,10 @@ recursions may be foregone until required, thereby negating the need for recursi
 
 \subsubsection{Functions}
 
-Up to this point, several functions have been defined and used in the examples.  As Haskell is a functional programming
-language, functions are the primary modular construct employed to accomplish tasks.  Worth noting here, the parameter passing techniques
-supported in functions are by default explicit.  That is, bindings can be scoped to functions by explicitly invoking a function
-with the arguments that want to be scoped to the function in general.  However, there are a few notable exceptions that the community
+Up to this point, several functions have been defined and used in the examples. As Haskell is a functional programming
+language, functions are the primary modular construct employed to accomplish tasks. Worth noting here, the parameter passing techniques
+supported in functions are explicit by default. That is, bindings can be scoped to functions by explicitly invoking a function
+with the arguments that want to be scoped to the function in general. However, there are a few notable exceptions that the community
 has developed to support implicit parameter passing to functions of some degree:
 \bi
     \item Constant function definitions can be employed at the top level of a module~\cite{haskell-implicit-params}
@@ -388,7 +385,7 @@ has developed to support implicit parameter passing to functions of some degree:
 
 \subsubsection{Scoping}
 In Haskell, static scoping is employed in resolving the origins of bindings.  As such, active bindings are first those localized
-to the function followed by global scope.  As such, bindings within callee functions are not active in the caller function
+to the function followed by global scope.  Thus, bindings within callee functions are not active in the caller function
 unless explicitly passed as parameters.  This tenent of staticly binding within functions
 works toward the end of keeping functions from producing any side-effects~\cite{haskell-scope}.
 
@@ -422,8 +419,8 @@ in the event of abnormal program execution.  However, Haskell is
 different from other languages in the sense that the preferred way to handle
 these circumstances depends upon the portion of the code which requires action.
 To explain this point, functions in Haskell must be classifed as either pure
-or impure.  Recall the in previous sections, the Haskell language core was
-claimed to be pure functional programming in the sense the functions do
+or impure.  Recall that in previous sections, the Haskell language core was
+claimed to be a pure functional programming in the sense that functions do
 not produce any side-effects beyond their output values.  However, certain
 functions in Haskell must break this trend in some respect; such functions include
 those responsible for I/O, concurrency, and interfaces to other languages~\cite{haskell-awkward-squad}.
@@ -433,6 +430,7 @@ been mended by the introduction of monads in Haskell, a topic which unfortunatel
 For impure functions, \texttt{exceptions} are the favored way to perform error handling.
 The following example provides an error handling function \texttt{handler} associated with the
 \texttt{tryThis} function for intervening with I/O file-related issues.
+
 \begin{minted}{haskell}
 import System.Environment  
 import System.IO  
@@ -443,7 +441,7 @@ main = tryThis `catch` handler
 tryThis :: IO ()  
 tryThis = do (fileName:_) <- getArgs  
     fileContents <- readFile fileName  
-    putStrLn $ "File contains " 
+    putStrLn $ "File contains "
         ++ show (length (lines fileContents)) ++ " lines"  
       
 handler :: IOError -> IO ()  
@@ -454,9 +452,9 @@ handler e
     | otherwise = ioError e  
 \end{minted}
 
-For pure functions, the Haskell typeclass system was broaded to allow the introduction
+For pure functions, the Haskell typeclass system was broadened to allow the introduction
 of the \texttt{Maybe} algebraic type.  This type extension provides a function a way to
-indiciate that it may or may not return a value of the specified type in its declaration
+indicate that it may or may not return a value of the specified type in its declaration
 (i.e., it may fail to return any value).  If a function implementing this typeclass
 fails this way, the return value will be \texttt{Nothing}.  If it does return a value, say \texttt{x},
 that value will be prefaced by the keyword \texttt{Just}.  A pure function illustrating this concept
@@ -498,7 +496,7 @@ class  (Eq a) => Ord a  where
 \subsection{Concurrency Support}
 
 In Haskell, there is a mature library of modules for built-in and extension-level
-concurrency and parallelism~\cite{haskell-concurr}.  Platforms supported for concurrent and parallel execution include shared- and
+concurrency and parallelism~\cite{haskell-concurr}.  Platforms that support concurrent and parallel execution include shared- and
 distributed-memory systems, accelerator-style devices (e.g., general-purpose programming), and
 symmetric and unsymmetric architectures~\cite{par-funk}.  Multi-threading and multiprocessing capabilities are available in
 the standard Haskell library.  In the following example, multiple user-level threads are created for printing
