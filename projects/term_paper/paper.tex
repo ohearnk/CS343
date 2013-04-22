@@ -5,7 +5,6 @@
 % Purpose: Progamming Language Survey Term Paper on Haskell
 \documentclass[titlepage,12pt]{article}
 
-\usepackage{appendix}
 \usepackage{minted}
 
 % aliases
@@ -29,37 +28,22 @@
 \tableofcontents \newpage
 
 \section{Introduction}
-This paper provides an overview of the Haskell programming language.  The sections are outlined as follows:
-section 1 describes the background surrounding Haskell, including its connections to functional programming,
-and its usage today.  Section 2 provides a survey of many of the data and control constructs native to Haskell.
-Section 3 presents a brief look at several extensions beyond the Haskell core.
+This paper provides an overview of the Haskell programming language.
 
 \subsection{Origin and History}
 
-In the early 1930s, Alonzo Church formulated a mathematical abstraction known as lambda calculus, which involves the description 
-and evaluation of functions in mathematics. Lambda calculus became the foundation for functional programming~\cite{haskell-wiki}. 
-However, as numerous functional languages began to develop, all of which were similar in expressiveness and semantics, there 
-became the need for a standard functional language to aid the spread of functional programming. A meeting was held 
-in 1987 at a Functional Programming Languages and Computer Architecture conference to address this need~\cite{hudak-hist}. The meeting 
-resulted in the formation of a committee to design a standard functional language. In 1990, the committee produced their result: 
-a consolidation of existing functional programming languages into an open standard, common language to be used for 
-functional programming research: Haskell~\cite{hudak-con}.
-
-Haskell is named after Haskell Curry, a logician whose work greatly contributed to functional programming. It has a 
-lambda as its logo to symbolize lambda calculus as its foundation. Today, Haskell is widely used in many different aspects 
-of computing. From AT\&T's automated processing of abuse complaints in its network security division to the National 
-Radio Astronomy Observatory’s implementation of core science algorithms, Haskell can be found in many aspects of 
-modern industry~\cite{haskell-wiki}. 
+In the early 1930s, Alonzo Church formulated a mathematical abstraction known as lambda calculus, which involves the description and evaluation of functions in mathematics (Haskell). Lambda calculus became the foundation for functional programming (``Haskell''). However, as numerous functional languages began to develop, all of which were similar in expressiveness and semantics, there became the need for a standard functional language to aid the spread of functional programming (Hudak 1). A meeting was held in 1987 at a Functional Programming Languages and Computer Architecture conference to address this need (Hudak 1). The meeting resulted in the formation of a committee to design a standard functional language. In 1990, the committee produced their result: a consolidation of existing functional programming languages into an open standard, common language to be used for functional programming research (Hudak 3). They named this language Haskell after Haskell Curry, a logician whose work greatly contributed to functional programming,
+and chose the lambda as its logo to symbolize lambda calculus as its foundation. Today, Haskell is widely used in many different aspects of computing. 
 
 \subsection{Functional Programming Paradigm}
 
-Haskell is a pure functional language, which means that its functions cannot change values, but rather only accept and 
-return values. Every function acts independently of other functions and does not change the state of anything outside 
-of its scope. This is referred to as having no "side-effects," and it allows Haskell to be exceptionally optimized as 
-well as to permit parallel processing. In addition, functions do not have to be declared in a particular order since 
-they all exist independently of one another. 
+Haskell is a pure functional language, which means that its functions cannot change values, but rather only accept and return values. Every function acts independently of other functions and does not change the state of anything outside of its scope. This is referred to as having no "side-effects," and it allows Haskell to be exceptionally optimized as well as to permit parallel processing. In addition, functions do not have to be declared in a particular order since they all exist independently of one another. 
 
 \subsection{Application Domains}
+
+Haskell is most commonly used for the development of substantial software systems. The language is designed to produce productivity from programmers in fewer lines of code. In addition, having no side-effects leads to fewer errors. These features are very important in the development of large software systems, and Haskell is an ideal choice. 
+
+Other popular uses of Haskell include the development of domain specific languages, web startups, mathematics, hardware design firms, finance, and aerospace and defense. Haskell's use in commercial industry ranges from AT\&T's automated processing of abuse complaints to the National Radio Astronomy Observatory’s implementation of core science algorithms.
 
 
 [TODO]~\cite{learnyouahaskell}
@@ -127,17 +111,37 @@ let myStr = "2"
 let myNum = read myStr
 \end{minted}
 
-Haskell uses typeclasses to categorize the type system. Typeclasses define the behavior of a general type. A type must support the definition of its typeclass, but may also be more specific. For example, all of the operators in Haskell are categorized under the Eq typeclass. Other examples of typeclasses in Haskell include Ord, Show, Read, Enum, Num, Integral, and Floating. Typeclasses can be used to allow multiple types to be passed to a function. For example, to create a function that will accept both Int and Integer types, it's as simple as declaring its typeclass as Integral.
+Haskell uses typeclasses to categorize the type system. Typeclasses define the behavior of a general type. A type must support the definition of its typeclass, but may also be more specific. For example, all of the operators in Haskell are categorized under the Eq typeclass. Other examples of typeclasses in Haskell include Ord, Show, Read, Enum, Num, Integral, and Floating. Typeclasses can be used to allow multiple types to be passed to a function. In the following example, the function declares its typeclass as Integral. Therefore, the function will allow accept Int or Integer types as parameters. 
+
+\begin{minted}{haskell}
+incrementMe :: (Integral a) => a -> a
+incrementMe a = a + 1
+\end{minted}
+
 
 \subsection{Control Abstractions}
 \subsubsection{Expressions}
-\bi
-    \item Function definitions
+
+Function definitions in Haskell are very simple and straightforward. A function consists of the function name, parameters, and an expression. The return value of the function is the evaluation of the expression, which uses the parameters. The naming standard for functions in Haskell is to use camel case. All functions in Haskell must take at least one parameter and must return only one value. They can, however, be passed multiple parameters. Functions are usually called with prefix notation; that is, the name of the function is followed by its arguments. It is possible, however, to call functions using infix notation, which is sometimes appropriate if the function takes two arguments. Additionally, all operators are called using infix notation. The following example demonstrates how a function can be called using infix notation. 
+
+\begin{minted}{haskell}
+let evens = [2, 4, 6, 8]
+print (elem 2 evens)   -- prefix notation
+print (2 `elem` evens) -- infix  notation
+\end{minted}
+
+The data type for each parameter of a function can be explicitly declared by using the ``::" symbol, which is read as ``has a type of." The types of the parameters can be listed in order, and the last type in the list is the return type. The following function is called ``greet."
+It takes in a string and returns a string. The string is passed in as the variable ``name." Everything that follows the equal sign is the expression, and the evaluation of this expression is the return value. 
+
 \begin{minted}{haskell}
 greet :: String -> String
 greet name = "Hello, " ++ name ++ "!"
 \end{minted}
-    \item Bindings: let/in (valid expression), where (locally bound to a syntactic construct)
+
+Bindings in Haskell can be created in two different ways. The first is using `where' bindings. Where bindings allow the definition of a function inside another function. The scope of the function declared by a where is locally bound by the function that created it. Functions outside of the declaring function cannot call the function declared inside the where. Additionally, where bindings can be nested; that is, a function declared inside a where can declare its own helper functions inside a where. Where bindings can also span across guards, which have not been discussed yet. 
+
+In the following example, the function rectPrismVol declares two functions: faceArea and baseArea. Only the rectPrismVol function is allowed to call these functions because they are locally bound. 
+
 \begin{minted}{haskell}
 rectPrismVol :: (Num a) -> a -> a -> a -> a
 rectPrismVol length width height = 4 * (faceArea length width)
@@ -145,41 +149,64 @@ rectPrismVol length width height = 4 * (faceArea length width)
 where   faceArea l w = l * w
         baseArea = l * h
 \end{minted}
+
+The second type of binding available in Haskell is done using `let' bindings. Let bindings allow the declaration of variables that are expressions themselves and are locally bound. Let bindings are often used for pattern matching. The syntax of let bindings involved declaring the bindings inside a `let' declaration, followed by defining an expression inside an `in' declaration. The let and in statements must be aligned in the same column. 
+
 \begin{minted}{haskell}
-myExp :: Float -> Float
-myExp x =
+myExp =
     let e = 2.7182
     in  e ** x
 \end{minted}
-NOTE: statements in let/in must be aligned in same column
-\ei
+
+The difference between let and where bindings is that let bindings are expressions themselves, whereas where bindings are just syntactic constructs. Additionally, unlike where bindings, let bindings cannot span across guards, a feature that has not yet been discussed.
 
 \subsubsection{Operators and Precedence}
-\bi
-    \item Operators: postfix notation, naming typically consists of symbols
-    \item Functions: infix notation, named using alphanumeric characters in camel case
-    \item Any function can be used as an operator by calling it in postfix notation
+
+Operators in Haskell are typically represented with symbols. Some of the basic operators in Haskell include addition, subtraction, multiplication, divison, exponentiation, concatenation, and equality operators and logic operators. The precedence of operators conform to the standard orders used in mathematics: exponentiation is highest, followed by muliplication and visision, with addition and subtraction with the lowest precedence.  
+
+All operators in Haskell take two arguments, and they are usually called using infix notation; that is, the operator is placed between its two arguments. Although it is possible to use operators in prefix notation, it is customary to use infix notation to increase readability. This contrasts from most functional programming languages. 
+
 \begin{minted}{haskell}
-f :: (Int a) => a -> a -> a
-f a b = a + b
-; invoke the function in postfix notation
-print (1 `f` 2)
+print (2 + 5)    -- infix notation is the standard
+print ((+) 2 5)  -- prefix notation is still possible
 \end{minted}
-    \item Any operator can be called as a function in infix notation
-\begin{minted}{haskell}
-print ((+) 2 5)
-\end{minted}
-    \item Operators can be overloaded
+
+Operators in Haskell can also be overloaded. The number and type of arguments as well as the expression can be modified. 
+
 \begin{minted}{haskell}
 (*) :: (Num a) => a -> a -> a
-(*) a b = a + a + a + a
-print (2 * 3)
+(*) a b = a * a * b
+print (2 * 3)   -- this yields 12 rather than 6
 \end{minted}
-\ei
 
 \subsubsection{Selection Constructs}
-\bi
-    \item Pattern matching
+
+Selection constructs in Haskell consist of if-else statements, guards, pattern matching, and case expressions. 
+
+If-else statements in Haskell conform to the traditional syntax of the if-else selection construct. The only notable difference is that Haskell requires that every conditional is followed by a then expression and an else expression. The compiler will prevent compilation for any if conditional that does not also have then and else statements because without them it would be possible for an input to cause a function not to have a return value, which Haskell does not allow.
+
+\begin{minted}{haskell}
+guessGame :: Int -> String
+guessGame x = if x == 42
+    then "You have a deep understanding of life."
+    else "You need to think more about life."
+\end{minted}
+
+If-else statements are not used in Haskell as often as they are in imperative languages because Haskell offers a feature known as guards, which are fundamentally equivalent to if-else statements except they are much more easily understood, work with multiple conditions, and blend well with pattern matching. Guards are created using pipes in the expression of a function and consist of a conditional, which must evaluate to true or false, and an expression. An equals sign separates the conditional from the expression. Arguments are checked against the guards in sequential order. If the condition is true, then the expression for that guard is evaluated and returned. If the condition is false, then the next guard condition is evaluated, and this pattern continues until the `otherwise' guard is reached, which catches all input that did not match any guard previous conditions. The following function has three guards, each following a pipe. A notable aspect of this function is that if the input is value is greater than 100,000 it will cause the first guard condition to be true and will evaluate the first guard expression even though the input would also be true for the second guard. This is because the guards are checked in order, so the second guard is never checked because the first guard is true and the return value is determined from it. The otherwise guard is placed at the bottom to catch any value that does not cause the first two guards to be true. 
+
+\begin{minted}{haskell}
+let balance = 200
+assessWorth :: Int -> String
+assessWorth =
+    | balance > 100000 = "You're rich!"
+    | balance > 100 = "You're rich by student standards!"
+    | otherwise = "Need a loan, friend?"
+\end{minted}
+
+Another selection construct in Haskell is pattern matching. Pattern matching is a simple way to have a function perform differently based on its input. It is initiatiated by defining a function multiple times in a row using patterns as parameters. The final declaration of the function must use a variable for the parameter in case the input does not match a pattern. The function will check the input against the patterns in order from first declared to last; thus, if the input does not conform to the first pattern, it will move on to the next pattern, and so on. 
+
+In the following example, an input of ``Haskell" will produce the first expression, ``Clojure" will skip the first and produce the second, and any other input will produce the third. Note that the third and final expression does not have a pattern to match, but instead uses a variable to catch all other input. 
+
 \begin{minted}{haskell}
 favoriteLang :: String -> String
 favoriteLang "Haskell" = "You have refined taste, my friend."
@@ -188,23 +215,11 @@ favoriteLang "Clojure" =
 favoriteLang lang = lang ++ 
     " is a fine choice, but you should give Haskell a spin."
 \end{minted}
-    \item if/then/else
-\begin{minted}{haskell}
-guessGame :: Int -> String
-guessGame x = if x == 42
-    then "You have a deep understanding of life."
-    else "You need to think more about life."
-\end{minted}
-    \item Guards
-\begin{minted}{haskell}
-let balance = 200
-assessWorth :: Int -> String
-assessWorth =
-    | balance >= 100000 = "You're rich!"
-    | balance >= 100 = "You're rich by student standards!"
-    | otherwise = "Need a loan, friend?"
-\end{minted}
-    \item Case expression
+
+The final selection construct in Haskell is case expressions. Case expressions evaluate expressions based on the possible cases of a value. They are similar to the standard use of cases, except they can also pattern match the input. Note that this is exactly how pattern matching parameters in function definitions works. In fact, pattern matching parameters is simply an easier way to write case expressions, and the two are interchangeable. 
+
+The following function demonstrates how to evaluate a specific expression that depends on which pattern an argument matches by using the `case' construct. Note that if this function were written using the pattern matching technique it would work exactly the same way and the code would be more readable. 
+
 \begin{minted}{haskell}
 favoriteMathSymbol :: String -> String
 favoriteMathSymbol x = case x of
@@ -214,7 +229,6 @@ favoriteMathSymbol x = case x of
         ++ "therefore, I am within the limit."
     x = "You have much to learn of the maths."
 \end{minted}
-\ei
 
 \subsubsection{Iterative Constructs}
 \bi
