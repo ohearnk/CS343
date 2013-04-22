@@ -313,13 +313,13 @@ favoriteLang lang = lang ++
 \end{minted}
 
 The final selection construct in Haskell is case expressions. Case expressions evaluate expressions based on 
-the possible cases of a value. They are similar to the standard use of cases, except they can also pattern 
+the values of a parameter. They are similar to case constructs in imperative languages, except they can also pattern 
 match the input. Note that this is exactly how pattern matching parameters in function definitions works. In 
 fact, pattern matching parameters is simply an easier way to write case expressions, and the two are interchangeable. 
 
 The following function demonstrates how to evaluate a specific expression that depends on which pattern 
-an argument matches by using the `case' construct. Note that if this function were written using the 
-pattern matching technique it would work exactly the same way and the code would be more readable. 
+an argument matches by using the \texttt{case} construct. Note that if this function were written using the 
+pattern matching technique it would work exactly the same way. 
 
 \begin{minted}{haskell}
 favoriteMathSymbol :: String -> String
@@ -391,14 +391,14 @@ topics: inheritance, concurrency, and runtime type checking.
 
 \subsection{Inheritance}
 
-Inheritance in Haskell can be achieved through class extension, which involves a class defined as a subclass 
-of another class. The subclass then inherits all of the operations in the superclass. A benefit to class 
+Inheritance in Haskell can be achieved through class extension, which involves defining a class as a subclass 
+of some other class. The subclass then inherits all of the operations in the superclass. A benefit to class 
 extension is shorter contexts: a type expression for a function that uses operations from both the subclass 
 and the superclass only has to use the context of the subclass. Additionally, methods for subclass 
 operations can assume the existence of methods for superclass operations.
 
-The following class definition of Ord inherits all of the operations in Eq, but also includes the comparison 
-operators as well as maximum and minimum functions.
+The following class definition of the \texttt{Ord} typeclass inherits all of the operations in the \texttt{Eq} typeclass but
+also obtains comparison operators as well as the \texttt{maximum} and \texttt{minimum} functions.
 
 \begin{minted}{haskell}
 class  (Eq a) => Ord a  where
