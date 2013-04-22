@@ -41,7 +41,8 @@ infixToPostfix expr =
         removeToLeftParen (x:xs) = removeToLeftParen xs
 
         parseExpr [] stack = 
-            (foldl (++) "" (zipWith (++) stack (replicate (length stack - 1) " ")))
+            (foldl (++) "" (zipWith (++) 
+                stack (replicate (length stack - 1) " ")))
             ++ (last stack)
         parseExpr (x:xs) stack
             | isOperand x = x ++ " " ++ (parseExpr xs stack)

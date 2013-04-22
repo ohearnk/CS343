@@ -7,6 +7,7 @@
 
 \usepackage{appendix}
 \usepackage{minted}
+\usepackage{url}
 
 % aliases
 \newcommand{\be}{\begin{enumerate}}
@@ -47,7 +48,7 @@ a consolidation of the aspects of existing functional programming languages into
 functional programming research: Haskell~\cite{hudak-con}.
 
 Haskell is named after Haskell Curry, a logician whose work greatly contributed to functional programming. The logo of Haskell, lambda,
-symbolize lambda calculus as its foundation. Today, Haskell is widely used in many different aspects 
+symbolizes that lambda calculus is the foundation from which Haskell was based. Today, Haskell is widely used in many different aspects 
 of computing.
 
 \subsection{Functional Programming Paradigm}
@@ -56,13 +57,17 @@ The core of Haskell is a pure functional language, which means that its function
 hardware-related statefullness. Every function acts independently of other functions and does not change the state of anything outside 
 its scope. This concept is referred to as having no ``side-effects,'' and this affords Haskell a certain simplicity in design
 and implementation, as well as lends it to other means such as optimization toward parallel processing. In addition,
-functions do not have to be declared in a particular order since they all exist independently of one another. 
+functions do not have to be declared in a particular order since they all exist independently of one another.
+
+Beside function independence, Haskell also follows the lazy function evaluation paradigm which characterizes some other functional 
+languages. Because of lazy evalution, functions in Haskell are not evaluated until their return value is needed by some other function.
+This leads to some interesting constructs that cannot be implemented in non-lazy languages, such as infinite lists.
 
 \subsection{Application Domains}
 
 Haskell is most commonly used for the development of substantial software systems. The language is designed to increase
-productivity from programmers in fewer lines of code. In addition, having no side-effects leads to fewer errors.
-These features are very important in the development of large software systems, and Haskell is an ideal choice. 
+productivity from programmers in fewer lines of code. In addition, fewer errors are often produced by developers due to the lack of
+side-effects in functions.  These features are very important in the development of large software systems, and Haskell is an ideal choice. 
 
 Other popular uses of Haskell include the development of domain specific languages, web startups, mathematics, 
 hardware design firms, finance, and aerospace and defense. Haskell's use in commercial industry ranges from AT\&T's 
@@ -84,7 +89,7 @@ main = putStrLn "Hello World!"
 
 \subsection{Data Abstractions}
 Haskell supports a very rich, strong, static type system for programmers.  As Haskell is
-a compiled language, with the Glasgow Haskell Compiler (GHC) being the most common implementation,
+a compiled language --- with the Glasgow Haskell Compiler (GHC) being the most common implementation ---
 most of the type checking is performed and enforced at compile time.
 
 \subsubsection{Data Types}
@@ -111,7 +116,7 @@ let evens = [2, 4, 6, 8, 10]	-- list
 let t = (3.14, 'pi')		-- tuple
 \end{minted}
 
-Haskell also allows the definition Strings, which are represented by surrounding text with double quotes. Strings, however, 
+Haskell also allows definition Strings, which are represented by surrounding text with double quotes. Strings, however, 
 are not their own data type. Although string literals can be initialized using the double quote syntax, the compiler converts the 
 string into a list of characters at compile time. The use of the String notation is simply syntatic sugar for programmers. 
 It also helps increase the readability of code. In the following example, \texttt{str1} shows how the data for a string is actually stored: as a list of characters. However, Haskell allows the definition of a string using double quotes, as seen in \texttt{str2}, 
@@ -123,7 +128,8 @@ let str2 = "Haskell!"   -- shorthand for str1
 \end{minted}
 
 In addition to these basic data types, Haskell also offers type variables. Type variables are variables whose type has 
-not been explicitly declared; rather, they can be any type.  By defining a function without declaring data types, the 
+not been explicitly declared; rather, they can be any type.  Type variables are most often employed to define the parameter
+and return value types of functions. By defining a function without declaring data types, the 
 variables in the function can be used as any type thereby enabling polymorphic behaviors. In the following example, the 
 function can handle a list of any type because its uses a type variable. 
 
@@ -136,13 +142,14 @@ lastTwo a = [a !! ((length a) - 2), a !! ((length a) - 1)]
 Type checking in Haskell is performed statically at compile time. Haskell uses type-declarations for functions, in 
 which the types of parameters and return values are explicitly defined. Any use of a function in which parameters 
 do not meet the defined function type is flagged by the compiler, and compilation will be aborted. In addition, 
-Haskell uses type inferencing by context. The type system in Haskell deduces obvious types and makes them concrete. In the 
-following example, although the type of myNum is unknown at compile time, the compiler infers that the Int type 
-is desired because myNum is added to an Int. 
+Haskell supports type inferencing by context. The type system in Haskell deduces obvious types and makes them concrete. In the 
+following example, the \texttt{read} function is used to convert \texttt{myStr} to another data type.
+Although the type of \texttt{myNum} is unknown at compile time, the compiler infers that the Int type 
+is desired because \texttt{myStr} is added to an Int type. 
 
 \begin{minted}{haskell}
 let myStr = "2" 
-let myNum2 = (read myStr) + 2
+let myNum = (read myStr) + 2
 \end{minted}
 
 If the context does not suggest the type, as in the example below, then an exception will result because the 
@@ -153,12 +160,21 @@ let myStr = "2"
 let myNum = read myStr
 \end{minted}
 
+To avoid ambiguity in type conversion, the following syntax can be employed to indicated to the compiler what type
+is desired from the \texttt{read} function.
+
+\begin{minted}{haskell}
+let myStr = "2"
+let myNum = (read myStr) :: Float
+\end{minted}
+
+
 Haskell uses typeclasses to categorize the type system. Typeclasses define the behavior of a general type. 
 A type must support the definition of its typeclass, but may also be more specific. For example, all of the 
 operators in Haskell are categorized under the Eq typeclass. Other examples of typeclasses in Haskell include Ord, 
 Show, Read, Enum, Num, Integral, and Floating. Typeclasses can be used to allow multiple types to be passed to a 
-function. In the following example, the function declares its typeclass as Integral. Therefore, the function will 
-allow accept Int or Integer types as parameters. 
+function. In the following example, the function declares its typeclass as Integral. Therefore, valid functions invocations consist
+of Int or Integer type parameters.
 
 \begin{minted}{haskell}
 incrementMe :: (Integral a) => a -> a
@@ -166,7 +182,12 @@ incrementMe a = a + 1
 \end{minted}
 
 \subsection{Control Abstractions}
-\subsubsection{Expressions}
+
+Haskell supports several constructs for controlling program execution.  These constructs can be further divided into:
+expressions, functions, and operators, selection and iteration mechanisms, modules, and execption handling.
+In order to further understand the functionality of these constructs, scoping and parameter passing techniques are discussed.
+
+\subsubsection{Expressions and Functions}
 
 Function definitions in Haskell are very simple and straightforward. A function consists of the function name, 
 parameters, and an expression. The return value of the function is the evaluation of the expression, which 
@@ -212,18 +233,18 @@ where   faceArea l w = l * w
 The second type of binding available in Haskell is done using \texttt{let} bindings. \texttt{let} bindings allow the declaration of 
 variables that are expressions themselves and are locally bound.  \texttt{let} bindings are often used for pattern matching. 
 The syntax of \texttt{let} bindings involves declaring the bindings inside a \texttt{let} declaration, followed by defining an 
-expression inside an \texttt{in} declaration. The \texttt{let} and \texttt{in} statements must be aligned in the same column. 
+expression inside an \texttt{in} declaration. The expression in the \texttt{let} and \texttt{in} parts must be aligned in the same column. 
 
 \begin{minted}{haskell}
 myExp :: (Num a) => a -> a
-myExp =
+myExp x =
     let e = 2.7182
     in  e ** x
 \end{minted}
 
 The difference between \texttt{let} and \texttt{where} bindings is that \texttt{let} bindings are expressions themselves, whereas 
-\texttt{where} bindings are just syntactic constructs. Additionally, unlike \texttt{where} bindings, \texttt{let} bindings cannot 
-span across guards.
+\texttt{where} bindings are just syntactic constructs attached to some expresion. 
+Additionally, unlike \texttt{where} bindings, \texttt{let} bindings cannot span across guards.
 
 \subsubsection{Operators and Precedence}
 
@@ -265,7 +286,7 @@ guessGame x = if x == 42
     else "You need to think more about life."
 \end{minted}
 
-If-else statements are not used in Haskell as often as they are in imperative languages because Haskell offers a feature 
+If-else statements are not used in Haskell as often as they are in imperative languages because Haskell offers another feature 
 known as guards, which are fundamentally equivalent to if-else statements except they are much more easily understood, 
 work with multiple conditions, and blend well with pattern matching. Guards are created using pipes in the 
 expression of a function and consist of a conditional, which must evaluate to true or false, and an expression. 
@@ -276,9 +297,11 @@ If the condition is false, then the next guard condition is evaluated, and this 
 following function has three guards, each following a pipe. A notable aspect of this function is that if the 
 input is value is greater than 100,000 it will cause the first guard condition to be true and will evaluate the 
 first guard expression even though the input would also be true for the second guard. This is because the guards are 
-checked in the order which they are defined, so the second guard is never checked in this case because the first guard is true and the return value is 
-determined from it. The \texttt{otherwise} guard is placed at the bottom to catch any value that does not cause the first two guards to be true. 
+checked in the order which they are defined, so the second guard is never checked in this case because the first guard is true and 
+the return value is  determined from it. The \texttt{otherwise} guard is placed at the bottom to catch any value that does not 
+cause the first two guards to be true. 
 
+\newpage
 \begin{minted}{haskell}
 let balance = 200
 assessWorth :: Int -> String
@@ -371,7 +394,7 @@ It is worth noting that in Haskell, tail and guarded recursion are both utilized
 by minimizing the function frame allocations on the stack.  However, because of the lazy-evaluation philosophy of Haskell,
 recursions may be foregone until required, thereby negating the need for recursion optimization in some instances~\cite{haskell-tail-recur}.
 
-\subsubsection{Functions}
+\subsubsection{Functions and Parameter Passing}
 
 Up to this point, several functions have been defined and used in the examples. As Haskell is a functional programming
 language, functions are the primary modular construct employed to accomplish tasks. Worth noting here, the parameter passing techniques
@@ -459,6 +482,7 @@ indicate that it may or may not return a value of the specified type in its decl
 fails this way, the return value will be \texttt{Nothing}.  If it does return a value, say \texttt{x},
 that value will be prefaced by the keyword \texttt{Just}.  A pure function illustrating this concept
 is given below.
+\newpage
 \begin{minted}{haskell}
 doubleHead :: [Int] -> Maybe Int
 doubleHead [] = Nothing
