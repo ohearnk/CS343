@@ -186,25 +186,26 @@ print (elem 2 evens)   -- prefix notation
 print (2 `elem` evens) -- infix  notation
 \end{minted}
 
-The data type for each parameter of a function can be explicitly declared by using the ``::" symbol, which is 
-read as ``has a type of." The types of the parameters can be listed in order, and the last type in the list 
-is the return type. The following function is called ``greet."
+The data type for each parameter of a function can be explicitly declared by using the \texttt{::} symbol, which is 
+read as ``has a type of.''  The types of the parameters can be listed in order, and the last type in the list 
+is the return type. The following function is called \texttt{greet}.
 
-It takes in a string and returns a string. The string is passed in as the variable ``name." Everything that follows the equal sign is the expression, and the evaluation of this expression is the return value. 
+It takes in a string and returns a string. The string is passed in as the variable \texttt{name}. Everything that follows 
+the equal sign is the expression, and the evaluation of this expression is the return value. 
 
 \begin{minted}{haskell}
 greet :: String -> String
 greet name = "Hello, " ++ name ++ "!"
 \end{minted}
 
-Bindings in Haskell can be created in two different ways. The first is using `where' bindings. Where bindings allow 
-the definition of a function inside another function. The scope of the function declared by a where is locally bound 
+Bindings in Haskell can be created in two different ways. The first is using \texttt{where} bindings. \texttt{where} bindings allow 
+the definition of a function inside another function. The scope of the function declared by a \texttt{where} is locally bound 
 by the function that created it. Functions outside of the declaring function cannot call the function declared inside 
-the where. Additionally, where bindings can be nested; that is, a function declared inside a where can declare its 
-own helper functions inside a where. Where bindings can also span across guards, which have not been discussed yet. 
+the \texttt{where}. Additionally, \texttt{where} bindings can be nested; that is, a function declared inside a \texttt{where} can declare
+its own helper functions inside a \texttt{where}. \texttt{where} bindings can also span across guards, which will be covered shortly. 
 
-In the following example, the function rectPrismVol declares two functions: faceArea and baseArea. Only the rectPrismVol 
-function is allowed to call these functions because they are locally bound. 
+In the following example, the function \texttt{rectPrismVol} declares two functions: \texttt{faceArea} and \texttt{baseArea}. Only the 
+\texttt{rectPrismVol} function is allowed to call these functions because they are locally bound. 
 
 \begin{minted}{haskell}
 rectPrismVol :: (Num a) -> a -> a -> a -> a
@@ -214,10 +215,10 @@ where   faceArea l w = l * w
         baseArea = l * h
 \end{minted}
 
-The second type of binding available in Haskell is done using `let' bindings. Let bindings allow the declaration of 
-variables that are expressions themselves and are locally bound. Let bindings are often used for pattern matching. 
-The syntax of let bindings involved declaring the bindings inside a `let' declaration, followed by defining an 
-expression inside an `in' declaration. The let and in statements must be aligned in the same column. 
+The second type of binding available in Haskell is done using \texttt{let} bindings. \texttt{let} bindings allow the declaration of 
+variables that are expressions themselves and are locally bound.  \texttt{let} bindings are often used for pattern matching. 
+The syntax of \texttt{let} bindings involved declaring the bindings inside a \texttt{let} declaration, followed by defining an 
+expression inside an \texttt{in} declaration. The \texttt{let} and \texttt{in} statements must be aligned in the same column. 
 
 \begin{minted}{haskell}
 myExp =
@@ -225,9 +226,9 @@ myExp =
     in  e ** x
 \end{minted}
 
-The difference between let and where bindings is that let bindings are expressions themselves, whereas where 
-bindings are just syntactic constructs. Additionally, unlike where bindings, let bindings cannot span across guards, 
-a feature that has not yet been discussed.
+The difference between \texttt{let} and \texttt{where} bindings is that \texttt{let} bindings are expressions themselves, whereas 
+\texttt{where} bindings are just syntactic constructs. Additionally, unlike \texttt{where} bindings, \texttt{let} bindings cannot 
+span across guards.
 
 \subsubsection{Operators and Precedence}
 
@@ -236,7 +237,7 @@ subtraction, multiplication, divison, exponentiation, concatenation, and equalit
 precedence of operators conform to the standard orders used in mathematics: exponentiation is highest, followed by 
 muliplication and visision, with addition and subtraction with the lowest precedence.  
 
-All operators in Haskell take two arguments, and they are usually called using infix notation; that is, the operator is 
+All operators in Haskell are binary, and they are usually called using infix notation; that is, the operator is 
 placed between its two arguments. Although it is possible to use operators in prefix notation, it is customary to use 
 infix notation to increase readability. This contrasts from most functional programming languages. 
 
@@ -249,8 +250,8 @@ Operators in Haskell can also be overloaded. The number and type of arguments as
 
 \begin{minted}{haskell}
 (*) :: (Num a) => a -> a -> a
-(*) a b = a * a * b
-print (2 * 3)   -- this yields 12 rather than 6
+(*) a b = a + a + a + a
+print (2 * 3)   -- yields 8 rather than 6
 \end{minted}
 
 \subsubsection{Selection Constructs}
