@@ -381,6 +381,59 @@ addFour x = x + 4
 \end{minted}
 \subsubsection{Exception Handling}
 
+Haskell, like many other languages, provides ways to utilize error handling code
+in the event of abnormal program execution.  However, Haskell is
+different from other languages in the sense that the preferred way to handle
+these circumstances depends upon the portion of the code which requires action.
+To explain this point, functions in Haskell must be classifed as either pure
+or impure.  Recall the in previous sections, the Haskell language core was
+claimed to be pure functional programming in the sense the functions do
+not produce any side-effects beyond their output values.  However, certain
+functions in Haskell must break this trend in some respect; such functions include
+those responsible for I/O, concurrency, and interfaces to other languages~\cite{haskell-awkward-squad}.
+As a side note, this split from the functional paradigm for these types of functions has
+been mended by the introduction of monads in Haskell, a topic which unfortunately will not be covered here.
+
+For impure functions, \texttt{exceptions} are the favored way to perform error handling.
+The following example provides an error handling function \texttt{handler} associated with the
+\texttt{tryThis} function for intervening with I/O file-related issues.
+\begin{minted}{haskell}
+import System.Environment  
+import System.IO  
+import System.IO.Error  
+      
+main = tryThis `catch` handler  
+                  
+tryThis :: IO ()  
+tryThis = do (fileName:_) <- getArgs  
+    fileContents <- readFile fileName  
+    putStrLn $ "File contains " 
+        ++ show (length (lines fileContents)) ++ " lines"  
+      
+handler :: IOError -> IO ()  
+handler e 
+    -- handle exception
+    | isDoesNotExistError e = putStrLn "The file does not exist."  
+    -- re-raise exception
+    | otherwise = ioError e  
+\end{minted}
+
+For pure functions, the Haskell typeclass system was broaded to allow the introduction
+of the \texttt{Maybe} algebraic type.  This type extension provides a function a way to
+indiciate that it may or may not return a value of the specified type in its declaration
+(i.e., it may fail to return any value).  If a function implementing this typeclass
+fails this way, the return value will be \texttt{Nothing}.  If it does return a value, say \texttt{x},
+that value will be prefaced by the keyword \texttt{Just}.  A pure function illustrating this concept
+is given below.
+\begin{minted}{haskell}
+doubleHead :: [Int] -> Maybe Int
+doubleHead [] = Nothing
+doubleHead xs = Just ((head xs) * 2)
+
+main = do
+    print (doubleHead [2,4,6])  -- output: Just 4
+    print (doubleHead [])       -- output: Nothing
+\end{minted}
 
 
 \section{Advanced Topics}
