@@ -293,11 +293,11 @@ assessWorth =
     | otherwise = "Need a loan, friend?"
 \end{minted}
 
-Another selection construct in Haskell is pattern matching. Pattern matching is a simple way to have a 
-function perform differently based on its input. It is initiatiated by defining a function multiple times in 
-a row using patterns as parameters. The final declaration of the function must use a variable for the parameter 
-in case the input does not match a pattern. The function will check the input against the patterns in order from 
-first declared to last; thus, if the input does not conform to the first pattern, it will move on to the next pattern, and so on. 
+Another selection construct in Haskell is pattern matching. Pattern matching is simply a way to have a 
+function perform different actions based on its input. Pattern matching is done by defining a function multiple times in 
+succession using patterns in place of parameters.  When the function is called, its arguments are checked against all patterns,
+starting with the first and proceeding accordingly.  If no match is made, an exception is raised.
+A default match can be speficied by listing `plain' variables as function parameters.
 
 In the following example, an input of ``Haskell'' will produce the first expression, ``Clojure'' will skip the first 
 and produce the second, and any other input will produce the third. Note that the third and final expression does 
