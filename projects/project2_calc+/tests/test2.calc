@@ -1,0 +1,9 @@
+val = 10 + 90;
+val = val + 3 * val / val + val * (2 + val - 2 * val);
+print val;
+val = notDefined + 10000;
+val;
+val = val + 3 * val / val + val * (2 + val - 2 * val) - val + 3 * val / val + val * (2 + val - 2 * val);
+print val;
+print zero;
+exit;

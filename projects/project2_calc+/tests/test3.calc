@@ -1,0 +1,6 @@
+thisIsAVeryLongIdentifierName = 99;
+print thisIsAVeryLongIdentifierName / 9;
+print 2 + 2 + 2 + 2 + 2 + 2 + 2 + 2 - 2 - 2 - 2 + 2 * 1000;
+gotcha = -1;
+print gotcha + -10;
+exit;

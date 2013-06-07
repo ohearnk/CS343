@@ -1,0 +1,8 @@
+discount = (2+2) * 3;
+print discount;
+total = 100;
+markup = 2;
+net = (total - discount) * markup;
+net;
+exit;
+
